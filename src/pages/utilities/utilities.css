@@ -1,0 +1,85 @@
+.admin-manager .tambah-admin {
+    border-radius: 5px;
+    background-color: #ff8b48;
+    border: none;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    /* padding: 10px 35px; */
+    min-height: 35px;
+    padding-left: 35px;
+    padding-right: 35px;
+
+}
+.admin-manager .tambah-admin:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+}
+
+.admin-manager .search-admin {
+    border-radius: 5px;
+    background-color: #1f50b3;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    /* padding-left:35px;
+    padding-right:35px; */
+    border: none;
+    min-height: 35px;
+
+}
+.admin-manager .search-admin:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.admin-manager .in-admin {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #c2c2c2;
+    border-radius: 5px;
+    border: solid 1px #c2c2c2;
+    background-color: #ffffff;
+}
+
+.bg-primary {
+    background-color: #413c8a !important;
+}
+.bg-primary:hover {
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    outline: 0;
+}
+
+.admin-manager td{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.large-font {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+  }

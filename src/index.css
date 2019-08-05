@@ -1,0 +1,36 @@
+/* overide bootstrapt class */
+*{
+  font-family: Roboto;
+}
+
+button:focus{
+  outline: none
+}
+
+a{
+  color: black;
+}
+
+a:hover{
+  text-decoration: none;
+  color: black;
+}
+.fa-chevron-left {
+  font-size: smaller;
+  position: relative;
+  top: -2px;
+  color: #2e2771;
+  margin-right: 30px;
+}
+button{
+  border: none;
+  cursor: pointer;
+}
+
+.page-link {
+  border: none;
+}
+
+.title-page{
+  font-size: 30px
+}

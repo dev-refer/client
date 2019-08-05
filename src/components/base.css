@@ -1,0 +1,293 @@
+.logo {
+    color: #FD6A02;
+}
+.logo h1 {
+    font-weight: 400;
+}
+.logo h1 > span {
+    font-weight: 900;
+}
+.admin {
+    color: white;
+    /* background-color: #1f50b3;
+    border: 1px solid #1f50b3; */
+    background-image: linear-gradient(170deg, #8A8D90, #4B4D4F);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    /* line-height: 1.36; */
+    letter-spacing: normal;
+}
+
+.admin a {
+    text-decoration: none;
+    color: white;
+}
+.admin i {
+    font-size: 20px;
+    top: -3px;
+    position: relative;
+}
+
+.border {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #000000;
+}
+
+.border > div {
+    display: table;
+    float: left;
+    width: 100%;
+}
+
+i {
+    vertical-align: middle;
+    /* display: table-cell; 
+    text-align: center; */
+}
+
+.dot {
+    display: none;
+}
+
+.fa-chevron-down,
+.fa-chevron-up {
+    margin-top: 4px;
+    color: #cb9656;
+    font-size: 15px;
+}
+
+.header .border-top img {
+    margin-right: 25px;
+}
+
+.sub-admin-manager,
+.sub-atribut,
+.sub-hotel,
+.sub-kategori,
+.sub-user,
+.sub-util {
+    padding-left: 90px;
+}
+
+.sub-atribut i,
+.sub-kategori i,
+.sub-user i,
+.sub-util i {
+    font-size: 10px;
+    font-weight: bold;
+    right: 2px;
+    position: relative;
+}
+
+.col-md-9 {
+    padding-left: 0;
+    padding-right: 0;
+}
+.col-md-2 div {
+    cursor: pointer;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.normal span {
+    }
+
+.activelink .dot {
+    display: initial !important;
+}
+
+.container-fluid {
+    /* width: 1366px !important */
+}
+.header .col-md-2 {
+    width: 250px !important;
+}
+.header .base-area {
+    width: 1117px !important;
+    /* padding: 0 !important; */
+    margin: 0 !important;
+
+}
+
+.header .container {
+    /* padding-left: 0px !important; */
+    padding-right: 0 !important;
+}
+.base-sub {
+    padding-left: 60px !important;
+    padding-right: 50px !important;
+}
+
+.react-datepicker__input-container {
+    width: 187px;
+}
+
+.base-sub input[type='text'],
+.base-sub select,
+.tambah-supplier input[type='email'],
+input[type='number'] {
+    height: 40px !important;
+    font-family: Roboto;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1.36 !important;
+    letter-spacing: normal !important;
+    text-align: left !important;
+    color: #000000 !important;
+}
+
+/*  */
+
+.produk .col-md-2,
+.produk .col-md-3,
+.user-list-buyer .col-md-2,
+.user-list-buyer .col-md-4 {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+tbody {
+    font-family: Roboto;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1.36 !important;
+    letter-spacing: 0.56px !important;
+    text-align: center !important;
+    color: #000000 !important;
+}
+
+th {
+    font-family: Roboto;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1.36 !important;
+    letter-spacing: 0.56px !important;
+    /* text-align: left !important; */
+    color: #707070 !important;
+}
+
+tbody button {
+    font-family: Roboto;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1.33 !important;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    width: 100px !important;
+    height: 35px !important;
+    border-radius: 5px !important;
+    text-transform: uppercase !important;
+}
+
+tbody .bg-secondary {
+    background-color: #c2c2c2 !important;
+}
+
+button {
+    height: 40px !important;
+    border-radius: 5px !important;
+}
+
+th[scope='row'] {
+    color: #000000 !important;
+    font-family: Roboto;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: 0.64px;
+}
+.btn.active,
+.btn:active,
+button:active,
+button:focus,
+button:hover,
+input:active,
+input:focus,
+input:hover,
+label:focus,
+select:active,
+select:focus,
+select:hover,
+textarea:active,
+textarea:focus,
+textarea:hover {
+    outline: 0 !important;
+    -webkit-appearance: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+.komplit .form-control {
+    height: 40px !important;
+}
+
+.pop-modal p {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.94;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+    padding-top: 35px;
+    margin: 0;
+}
+.pop-modal small{
+    padding-top: 39px;
+    
+}
+.pop-modal {
+    padding-top: 32px;
+    padding-bottom: 46px;
+    width: 410px;
+    min-height: 300px;
+}
+
+.pop-modal button {
+    margin-top: 39px;
+    padding: 0 !important;
+}
+
+.pt-5,
+.py-5 {
+    padding-top: 38px !important;
+}
+
+.header .text-warning{
+    color : #ff8b48 !important;
+}
+
+.header .fa-chevron-down{
+    color: #ff8b48 !important
+}
+
+.header .fa-chevron-up{
+    color: #ff8b48 !important
+}
+
+/* .fa-chevron-left{
+    color: #2e2771 !important
+} */

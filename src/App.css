@@ -1,0 +1,14 @@
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
+/* overide loading style */
+.css-bojxom, .css-0{
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-right: -50% !important;
+  transform: translate(-50%, -50%)
+} 

@@ -1,0 +1,208 @@
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.container-responsive.login{
+    font-family: 'Roboto';
+    background-image: linear-gradient(173deg, #FCA161, #FD6A02);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+}
+
+.parent-page.login{
+  padding: 51px;
+  padding-left: 90px;
+  padding-right: 90px;
+}
+
+.horecamind-logo{
+    font-size: 54px;
+  color: #ffffff;
+  font-family: Roboto;
+  margin-bottom: 0px;
+  font-weight: 400;
+  width: 194px;
+  height: 54px;
+  padding-bottom: 5px;
+}
+
+.col{
+  padding: 0px;
+}
+
+.form-bg.login{
+    float: left;
+}
+
+.horecamind-logo{
+  font-size: 54px;
+  color: #ffffff;
+  font-family: Roboto;
+  margin-bottom: 0px;
+  font-weight: 900;
+}
+.cms-control {
+  width: 100%;
+  height: 26px;
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  margin-bottom: 45px
+}
+
+.card.login{
+    width: 500px;
+    height: 666px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    float: right;
+    margin-top: 0px;
+}
+
+.isi-card{
+  padding: 50px;
+  padding-top: 33px; 
+}
+
+.card.login > form{
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    padding: 61px;
+}
+
+.card.login h1{
+    width: 100%;
+  height: 39px;
+  font-family: Roboto;
+  font-size: 30px;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-align: left;
+  color: #1f50b3;
+  margin-bottom: 7px;
+}
+
+.input-group.login{
+    font-family: 'Roboto';
+    width: 400px;
+    height: 50px;
+    border-radius: 5px;
+    border: solid 1px #c2c2c2;
+    background-color: #ffffff;
+}
+
+#exampleInputEmail{
+  height: 50px;
+}
+
+#exampleInputPass{
+  height: 50px;
+  border-right: none;
+}
+
+#g-recaptcha{
+  margin-left: 50px;
+  margin-top: 6px;
+}
+
+
+#inputGroup-sizing-default{
+  width: 65px;
+  height: 50px;
+  background-color: #1f50b3;
+}
+
+#inputGroup-sizing-default-1{
+  width: 65px;
+  height: 50px;
+  background-color: #ffffff;
+  border: solid 1px #c2c2c2;
+  border-left: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.fas.fa-user{
+  color: #ffffff;
+  margin: 11px;
+}
+
+.fas.fa-lock{
+  color: #ffffff;
+  margin: 11px;
+}
+
+.fas.fa-eye{
+  color: #1f50b3;
+  background-color: #ffffff;
+  margin: 10px;
+}
+
+.fas.fa-eye-slash{
+  color: #1f50b3;
+  background-color: #ffffff;
+  margin: 10px;
+}
+
+.btn.btn-primary.login{
+    width: 180px;
+    height: 50px;
+    border-radius: 5px;
+    border-color: #ff8b48;
+    background-color: #ff8b48;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 250px;
+    padding: 0px; 
+    cursor: pointer;
+}
+.btn.btn-primary.login:hover{
+   opacity: 0.6;
+}
+
+label.label-login{
+  width: 100%;
+  height: 19px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.36;
+  letter-spacing: 0.56px;
+  text-align: left;
+  color: #2e2a6d;
+  margin-bottom: 14px;
+  margin-top: 28px;
+}
+
+.logo-login {
+  color: white;
+}
+.logo-login h1 {
+  font-weight: 400;
+}
+.logo-login h1 > span {
+  font-weight: 900;
+}

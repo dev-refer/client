@@ -1,0 +1,92 @@
+.add-sub-category {
+    /* width: 296px;
+    height: 39px; */
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    margin-top: 38px;
+  }
+
+  .sub-category-name {
+    margin-top: 38px;
+    margin-bottom: 10px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+  }
+
+  .upload-sub-category-icon {
+    margin-top: 28px;
+    margin-bottom: 10px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #c2c2c2;
+  }
+
+  .base.add-subcat-base {
+    width: 160px;
+    height: 160px;
+    border: solid 1px #c2c2c2;
+  }
+
+
+  .adjust2{
+      padding: 0px;
+      margin-left: 60px;
+  }
+
+  .adjust3{
+      padding: 0px;
+  }
+
+  .add-button.subcat {
+    width: 180px;
+    height: 40px;
+    border-radius: 5px;
+    border:0;
+    background-color: #2e2771;
+    color: white;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 50px;
+    margin-top: 133px;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  .add-button.subcat:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+  }
+  .add-button.subcat:focus {
+    outline: none;
+  }
+
+  @media only screen and (max-width: 768px) {
+      .adjust2{
+          margin-left: 10px;
+      }
+  }

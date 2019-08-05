@@ -1,0 +1,108 @@
+thead.thead-category {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.36;
+    letter-spacing: 0.6px;
+    color: #707070;
+}
+
+.icon{
+    height: 70px;
+    width: 70px;
+}
+
+tr {
+    text-align: center;
+}
+
+.container.pb-5{
+    padding: 0px;
+}
+
+.kategori-h1 {
+    width: 142px;
+    height: 39px;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+
+.parent-tabkat.table>tbody>tr>td {
+    vertical-align: middle;
+    color: black;
+    font-weight: 500;
+}
+
+.parent-tabkat.table>tbody>tr>th {
+    vertical-align: middle;
+}
+
+.container.table-responsive.kat{
+    padding: 0px;
+}
+
+.form-control.carikat {
+    width: 472px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #c2c2c2;
+    background-color: #ffffff;
+    padding-left: 30px;
+}
+
+.search-button.category {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #4B4D4F;
+    /* border-color: #1f50b3; */
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.search-button.category:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+}
+
+.add-category-button {
+    width: 180px;
+    height: 40px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #ff8b48;
+    /* border-color: #cb9656; */
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.add-category-button:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+}

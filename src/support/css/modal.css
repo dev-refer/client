@@ -1,0 +1,71 @@
+.Banner{
+    width: 410px;
+    height: 322.6px;
+    border-radius: 5px;
+    border: solid 1px #d9d9d9;
+    background-color: #ffffff;
+}
+
+.TopModal{
+    margin-top: 32px;
+}
+
+.BottomModal{
+    margin-bottom: 35px;
+}
+
+.BannerText {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.94;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+    margin-top: 36.5px;
+    padding: 0px;
+  }
+
+  .Rectangle-373 {
+    width: 111px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #707070;
+    background-color: #1f50b3;
+    color: white;
+    font-weight: 700;
+    font-family: Roboto;
+    font-size: 14px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  .Rectangle-374 {
+    width: 111px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #1f50b3;
+    background-color: #ffffff;
+    color: #1f50b3;
+    font-weight: 700;
+    font-family: Roboto;
+    font-size: 14px;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+
+  .Rectangle-373:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+  }
+  .Rectangle-373:focus {
+    outline: none;
+  }
+
+  .Rectangle-374:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+  }
+  .Rectangle-374:focus {
+    outline: none;
+  }
