@@ -17,6 +17,7 @@
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
+    width: 1250px;
     /* line-height: 1.36; */
     letter-spacing: normal;
 }
@@ -133,8 +134,8 @@ i {
     width: 187px;
 }
 
-.base-sub input[type='text'],
-.base-sub select,
+/* .base-sub input[type='text'],
+.base-sub select, */
 .tambah-supplier input[type='email'],
 input[type='number'] {
     height: 40px !important;

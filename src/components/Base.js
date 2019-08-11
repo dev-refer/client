@@ -41,8 +41,8 @@ import AdminManager from '../pages/utilities/AdminManager';
 class Base extends Component {
 
   state = {
-    categoriesData : [],
-    token : this.props.token
+    categoriesData: [],
+    token: this.props.token
   }
 
   componentDidMount() {
@@ -84,14 +84,14 @@ class Base extends Component {
 
   }
 
-  getCategories = () =>{
+  getCategories = () => {
     axios.get('https://devmind3.net/api/categories')
-    .then(res=>{
-      this.setState({
-        categoriesData : res.data.data.category
-      })
-      console.log(res)
-    }).catch(err => console.log(err))
+      .then(res => {
+        this.setState({
+          categoriesData: res.data.data.category
+        })
+        // console.log(res)
+      }).catch(err => console.log(err))
   }
 
   render() {
@@ -119,7 +119,7 @@ class Base extends Component {
                   </div>
                 </NavLink>
 
-                  {/* {
+                {/* {
                     this.state.categoriesData.map(res => {
                       return(
                         <NavLink to={`/kategori/${res.name}`} activeClassName="activelink" className='normal' exact>
@@ -149,7 +149,7 @@ class Base extends Component {
                   </div>
                 </div>
               </NavLink>
-        
+
 
               <div className='  border-top'>
                 <div className=" util w-100  py-3 px-4  ">
@@ -203,24 +203,24 @@ class Base extends Component {
               {/* here */}
               <div className='base-sub'>
                 <Switch>
-             
+
                   <Route path='/produk' exact component={Product} />
                   <Route path='/produk/tambahproduk' exact component={TambahProduk} />
                   <Route path='/produk/editproduk' exact component={EditProduk} />
 
-                 
 
-                 
-                 
+
+
+
                   <Route path='/gantipassword' component={GantiPassword} />
                   <Route path='/adminmanager' exact component={AdminManager} />
                   <Route path='/adminmanager/tambahadmin' component={TambahAdmin} />
-                 
-                 
-                  
+
+
+
                   <Route path='/kategori' exact component={Category} />
                   <Route path='/kategori/tambahkategori' component={AddCategory} />
-                  <Route path='/kategori/editkategori' exact component={EditKategori} />
+                  <Route path='/kategori/editkategori/:id/:name' exact component={EditKategori} />
 
                   {this.state.categoriesData.map((res) => {
                     return (

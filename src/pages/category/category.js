@@ -42,7 +42,7 @@ class Category extends Component {
 
     componentDidMount() {
         this.getDataCategories()
-        this.getDataSubCategories()
+        // this.getDataSubCategories()
     }
 
     onBtnSearchClick = () => {
@@ -51,20 +51,20 @@ class Category extends Component {
 
 
     getDataCategories = () => {
-        
+
         this.setState({ loading: true })
 
         axios.get(ENV.BASE_URL_API + API.GET_CATEGORIES)
             .then(res => {
                 console.log(res.data.data);
-                
+
                 this.setState({
                     loading: false,
                     dataCategories: res.data.data.data,
-                    searchCategories: res.data.data.data       
+                    searchCategories: res.data.data.data
 
                 })
-                
+
                 console.log(this.state.searchCategories);
 
 
@@ -72,14 +72,14 @@ class Category extends Component {
             .catch(err => console.log(err))
     }
 
-    getDataSubCategories = (e) => {
-        axios.get('https://devmind3.net/api/sub-categories', { params: { category: this.state.idCategory } })
-            .then(res => {
-                // console.log(res.data.data['sub-category'][0].name, "ada sub");
-            })
-            .catch(err =>
-                console.log(err))
-    }
+    // getDataSubCategories = (e) => {
+    //     axios.get('https://devmind3.net/api/sub-categories', { params: { category: this.state.idCategory } })
+    //         .then(res => {
+    //             // console.log(res.data.data['sub-category'][0].name, "ada sub");
+    //         })
+    //         .catch(err =>
+    //             console.log(err))
+    // }
 
     handleDeleteCategory = () => {
         this.setState({
@@ -87,12 +87,12 @@ class Category extends Component {
             loading: true
         })
         // console.log(e.target.id);
-        axios.delete(ENV.BASE_URL_API + API.DELETE_CATEGORY + `${this.state.verifId}`, 
-        // {
-        //     headers: {
-        //         "Authorization": `Bearer ${this.state.token}`
-        //     }
-        // }
+        axios.delete(ENV.BASE_URL_API + API.DELETE_CATEGORY + `${this.state.verifId}`,
+            // {
+            //     headers: {
+            //         "Authorization": `Bearer ${this.state.token}`
+            //     }
+            // }
         )
             .then((res) => {
                 this.setState({
@@ -155,7 +155,7 @@ class Category extends Component {
                         {i + 1}
                     </th>
                     <td>
-                        <img src={icon} className="icon"/>
+                        <img src={icon} className="icon" />
                     </td>
                     <td>
                         {name}
@@ -181,8 +181,7 @@ class Category extends Component {
                             <div className='col'>
                                 <i class="fas fa-list-ul bg-light p-2 rounded-circle text-secondary m-2"></i>
                                 <Link to={{
-                                    pathname: '/kategori/editkategori',
-                                    id: id
+                                    pathname: `/kategori/editkategori/${id}/${name}`
                                 }}>
                                     <i className="fas fa-pencil-alt bg-light p-2 rounded-circle text-warning m-2"></i>
                                 </Link>
@@ -209,6 +208,8 @@ class Category extends Component {
     }
 
     render() {
+        console.log(this.props);
+        
         return (
             <div className='py-5 category'>
                 {/* modal */}

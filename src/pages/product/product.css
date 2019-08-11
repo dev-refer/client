@@ -115,7 +115,7 @@ button:focus {
 }
 
 .pg-tambah-prod input[type='file'] {
-    display: none;
+    /* display: none; */
 }
 
 .pg-tambah-prod label {

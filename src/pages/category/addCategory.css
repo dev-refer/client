@@ -62,6 +62,10 @@
       width: 355px;
   }
 
+  .Rectangle{
+    width: 500px
+  }
+
   .add-button.cat {
     width: 180px;
     height: 40px;

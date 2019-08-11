@@ -30,73 +30,114 @@ class EditKategori extends Component {
         tampilModal: false,
         suksesModal: false,
         loading: false,
-        token: localStorage.getItem('jwt')
+        token: localStorage.getItem('jwt'),
     }
 
     componentDidMount() {
-        console.log(this.props.location.id, 'ada id');
+        this.setState({ name: this.props.match.params.name })
+        console.log(this.props);
+
+        // console.log(this.props.location.id, 'ada id');
+        // this.setState({
+        //     loading: true
+        // })
+        // // if (!this.props.location.id) {
+        // //     console.log('none');
+        // //     // window.location.replace('/kategori');
+        // // } else {
+        // //     console.log('adaaaaaaa');
+        // // }
+        // //
+        // axios.get(ENV.BASE_URL_API + API.CATEGORY_LIST + `/${this.props.location.id}`, {
+        //     headers: {
+        //         "Authorization": `Bearer ${this.state.token}`
+        //     }
+        // })
+        //     .then(res => {
+        //         var { name } = res.data.data.category
+        //         this.setState({
+        //             category: name,
+        //             loading: false
+        //         })
+        //         console.log(res.data.data.category);
+
+        //     }).catch(err => {
+        //         if (err.message == 'Request failed with status code 404') {
+        //             // alert(`data can't edit`)
+        //             window.history.back();
+        //         }
+        //         console.log(err.message);
+        //     })
+    }
+
+    onChangeIcon = (e) => {
+        console.log(e.target.files[0]);
+        // console.log(URL.createObjectURL(e.target.files[0]));
+        // this.setState({
+        //     previewIcon: e.target.files[0]
+        // })
+
+
+        const url = ENV.BASE_URL_API + API.UPLOAD_ICON
+        const data = new FormData()
+        data.append('image', e.target.files[0])
         this.setState({
             loading: true
         })
-        // if (!this.props.location.id) {
-        //     console.log('none');
-        //     // window.location.replace('/kategori');
-        // } else {
-        //     console.log('adaaaaaaa');
-        // }
-        //
-        axios.get(ENV.BASE_URL_API + API.CATEGORY_LIST + `/${this.props.location.id}`, {
-            headers: {
-                "Authorization": `Bearer ${this.state.token}`
-            }
-        })
-            .then(res => {
-                var { name } = res.data.data.category
+        axios.post(url, data)
+            .then(({ data }) => {
                 this.setState({
-                    category: name,
+                    icon: data.data.link,
+                    // previewIcon: e.target.files[0],
+                    loading: false
+                }, () => {
+                    console.log(this.state.icon);
+                    // console.log(this.state.previewIcon);
+
+                })
+            })
+            .catch(err => {
+                alert(err.message)
+                this.setState({
                     loading: false
                 })
-                console.log(res.data.data.category);
-
-            }).catch(err => {
-                if (err.message == 'Request failed with status code 404') {
-                    // alert(`data can't edit`)
-                    window.history.back();
-                }
-                console.log(err.message);
             })
+
     }
 
     handleChange = (e) => {
         this.setState({
-            category: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
     popupModal = (e) => {
         this.setState({
-            tampilModal : true
+            tampilModal: true
         })
         e.preventDefault()
     }
 
     handleSubmit = (e) => {
+        console.log();
+        
         this.setState({
             tampilModal: false
         })
-        
+
         const fd = {
-            category: this.state.category
+            name: this.state.name,
+            icon: this.state.icon
         }
 
-        const url = ENV.BASE_URL_API + API.UPDATE_CATEGORY + `/${this.props.location.id}`
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${this.state.token}`,
-            }
-        }
+        const url = ENV.BASE_URL_API + API.EDIT_CATEGORY + `/${this.props.match.params.id}`
+        // const config = {
+        //     headers: {
+        //         "Authorization": `Bearer ${this.state.token}`,
+        //     }
+        // }
 
-        axios.post(url, fd, config)
+        axios.put(url, fd)
             .then((res) => {
                 this.setState({
                     suksesModal: true
@@ -212,20 +253,24 @@ class EditKategori extends Component {
                             <form>
                                 <div className="adjust3">
                                     <p className="category-name">Nama Kategori</p>
-                                    <input type="text" className="form-control Rectangle-1335" id="exampleFormControlInput1" value={this.state.category} name='category' onChange={this.handleChange} required />
+                                    <input type="text" className="form-control Rectangle-1335" id="exampleFormControlInput1" value={this.state.name} name='name' onChange={this.handleChange} required />
                                 </div>
+                                <div>
+                                    <input type="file" name='image' id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" onChange={this.onChangeIcon}/>
+                                </div>
+    
                             </form>
                         </div>
-                        <div className="text-center">
-                            <p>
-                                <button type="submit" className="add-button cat" >Tambah</button>
-                            </p>
+                            <div className="text-center">
+                                <p>
+                                    <button type="submit" className="add-button cat" >Tambah</button>
+                                </p>
+                            </div>
                         </div>
-                    </div>
                 </form>
             </div>
-        )
-    }
-}
-
+                )
+            }
+        }
+        
 export default EditKategori;

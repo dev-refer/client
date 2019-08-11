@@ -14,14 +14,14 @@ import succesSign from '../../imageAssets/checked-confirmation.svg'
 import warningSign from '../../imageAssets/warning-sign.svg'
 
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
 };
 
 
@@ -32,7 +32,7 @@ export default class Product extends Component {
         totalPage: '',
         page: '',
 
-        getDataProducts: [],
+        getDataSpot: [],
         categories: [],
         subCategories: [],
         categoryFilter: '',
@@ -44,73 +44,53 @@ export default class Product extends Component {
 
         //modal
         confirModal: false,
-        successModal : false,
-        deleteModal : false,
+        successModal: false,
+        deleteModal: false,
         //loading
-        loading : false,
+        loading: false,
     };
 
     componentDidMount() {
-        // this.getApiProduct()
+        this.getApiProduct()
         // this.getApiCategories()
         // console.log(this.state.token);
-        
+
     }
 
-    handlePageChange = (pageNumber) => {
-        // console.log(`active page is ${pageNumber}`);
-        this.setState({ page: pageNumber });
-        this.getApiProduct(pageNumber)
+
+
+
+    getApiProduct = (pageNumber) => {
+
+        this.setState({ loading: true })
+
+        const url = ENV.BASE_URL_API + API.GET_SPOT
+
+        axios.get(url)
+            .then(res => {
+                console.log(res.data.data.data[0].address, 'res api');
+
+
+                this.setState({
+
+                    loading: false,
+                    getDataSpot: res.data.data.data
+                    // activePage: response.data.data.activePage,
+                    // perPage: response.data.data.perPage,
+                    // totalPage: response.data.data.totalPage,
+                })
+                console.log(this.state.getDataSpot);
+
+                // // console.log('DATA PRODUCT setet',this.state);
+                // // console.log('DATA PRODUCT api',response.data.data);
+            }).catch((error) => {
+                console.log(error);
+                // alert(error.message)
+                localStorage.clear()
+                // window.location.reload()
+            })
+
     }
-
-    // getApiCategories = () => {
-    //     axios.get(ENV.BASE_URL_API + API.CATEGORY_LIST).then((response) => {
-    //         const data = response.data.data.category
-    //         this.setState({
-    //             categories: data,
-    //         })
-    //     })
-    //         .catch((error) => {
-    //             // console.log(error);
-    //             alert(error.message)
-    //         }) 
-    // }
-
-
-    // getApiProduct = (pageNumber) => {
-    //     return axios.get('https://devmind3.net/api/product/list', {
-    //         headers: {
-    //             "Authorization": `Bearer ${this.state.token}`
-    //         },
-    //         params: {
-    //             'sub-category': this.state.subCategoryFilter,
-    //             'category': this.state.categoryFilter,
-    //             'name': this.state.nameFilter,
-
-    //             'per-page': '10',
-    //             'page': pageNumber,
-    //             'active': 1,
-    //         }
-    //     },
-
-    //     ).then((response) => {
-    //         const data = response.data.data.product
-    //         this.setState({
-    //             getDataProducts: data,
-    //             activePage: response.data.data.activePage,
-    //             // perPage: response.data.data.perPage,
-    //             totalPage: response.data.data.totalPage,
-    //         })
-    //         // console.log('DATA PRODUCT setet',this.state);
-    //         // console.log('DATA PRODUCT api',response.data.data);
-    //     }).catch((error) => {
-    //         // console.log(error);
-    //         // alert(error.message)
-    //         localStorage.clear()
-    //         window.location.reload()
-    //     })
-
-    // }
 
     handleNameFilter = (e) => {
         this.setState({ nameFilter: e.target.value })
@@ -156,22 +136,22 @@ export default class Product extends Component {
             }
         }).then((res) => {
             this.setState({
-                loading : false,
-                successModal : true,
-                popMessage : 'telah berhasil dihapus',
-                popImage : succesSign
+                loading: false,
+                successModal: true,
+                popMessage: 'telah berhasil dihapus',
+                popImage: succesSign
             })
-            setTimeout(()=> this.setState({successModal : false}), 1500);
+            setTimeout(() => this.setState({ successModal: false }), 1500);
             // alert(res.data.meta.message)
             this.getApiProduct(this.state.page)
         }).catch((err) => {
             this.setState({
-                loading : false,
-                successModal : true,
-                popMessage : 'telah gagal dihapus',
-                popImage : warningSign
+                loading: false,
+                successModal: true,
+                popMessage: 'telah gagal dihapus',
+                popImage: warningSign
             })
-            setTimeout(()=> this.setState({successModal : false}), 2000);
+            setTimeout(() => this.setState({ successModal: false }), 2000);
         })
     }
 
@@ -189,24 +169,24 @@ export default class Product extends Component {
         })
             .then(response => {
                 this.setState({
-                    loading:false,
-                    successModal : true,
-                    popMessage : 'telah berhasil terverifikasi',
-                    popImage : succesSign
+                    loading: false,
+                    successModal: true,
+                    popMessage: 'telah berhasil terverifikasi',
+                    popImage: succesSign
                 })
-                setTimeout(()=> this.setState({successModal : false}), 1500);
+                setTimeout(() => this.setState({ successModal: false }), 1500);
                 console.log(response)
                 this.getApiProduct(this.state.page)
                 // console.log(this.state.page)
             })
             .catch(error => {
                 this.setState({
-                    loading : false,
-                    successModal : true,
-                    popMessage : 'telah gagal verifikasi',
-                    popImage : warningSign
+                    loading: false,
+                    successModal: true,
+                    popMessage: 'telah gagal verifikasi',
+                    popImage: warningSign
                 })
-                setTimeout(()=> this.setState({successModal : false}), 2000);
+                setTimeout(() => this.setState({ successModal: false }), 2000);
             });
         e.preventDefault()
     }
@@ -233,76 +213,62 @@ export default class Product extends Component {
         return mapList
     }
 
-    listProduct = () => {
-        var mapList = this.state.getDataProducts.map((listData, i) => {
-            var imageHandle = listData.image.length !== 0 ? `https://${listData.image[0].url}` : 'nothing here'
+    listSpot = () => {
+        console.log();
+
+        // return this.state.getDataSpot.map((res) => {
+        //     return console.log(res.address);
+
+        // })
+
+        var mapList = this.state.getDataSpot.map((item, i) => {
+            var { name, city, createdAt, updatedAt } = item
+            // var imageHandle = item.image.length !== 0 ? `https://${item.image[0].url}` : 'nothing here'
+
             return (
                 <tr key={i}>
                     <th scope="row">
-                        {listData.id}
+                        {i + 1}
                     </th>
-                    <td><img src={imageHandle} className="img-fluid" alt="Responsive" /></td>
+                    {/* <td><img src={imageHandle} className="img-fluid" alt="Responsive" /></td> */}
                     <td>
-                        {listData.name}
+                        {name}
                     </td>
                     <td>
-                        {listData.category.name}
+                        {city}
                     </td>
                     <td>
-                        {listData.subCategory.name}
+                        {createdAt}
                     </td>
                     <td>
-                        {listData.stock}
+                        {updatedAt}
                     </td>
-                    <td>
-                        {listData.satuan}
-                    </td>
-                    <td>
-                        {/* {listData.status} */}
-                        {
-                            listData.status == '0' ?
-                                <button class="w-100 py-2 verify-btn btn"  type="" onClick={()=>{
-                                    this.setState({
-                                        verifId : listData.id,
-                                        confirModal : true,
-                                        verifName : listData.name,
-                                        popImage : warningSign
-                                    })
-                                }}>VERIFY</button>
-                                : listData.status == '1' ?
-                                    <button class="w-100 py-2 verify-btn btn  bg-secondary" disabled type=""  >VERIFIED</button>
-                                    : listData.status == '2' ?
-                                        <button class="w-100 py-2 verify-btn  bg-danger btn" disabled='true' value={listData.id} type="" >DELETED</button> : null
-                        }
-                    </td>
+                  
+                   
                     <td>
                         <div className='row'>
                             <div className='col'>
                                 {/* <Link to='/produk/editproduk' params={{ testvalue: "hello kkkkk" }}> */}
-                                {listData.status == '2'?
-                                    <i className="fas fa-pencil-alt bg-secondary p-2 rounded-circle text-white m-2" ></i>
-                                :
-                                    <Link to={{
-                                        pathname :'/produk/editproduk', 
-                                        id : listData.id, 
-                                    }}>
-                                        <i className="fas fa-pencil-alt bg-warning p-2 rounded-circle text-white m-2"></i>
-                                    </Link>
-                                }
-                                {listData.status == '2'? 
-                                <i className="fas fa-trash-alt bg-secondary p-2 rounded-circle text-white m-2">
-                                </i>
-                                :
-                                <i className="fas fa-trash-alt bg-danger p-2 rounded-circle text-white m-2" onClick={()=>{
-                                    this.setState({
-                                        verifName : listData.name,
-                                        verifId : listData.id,
-                                        deleteModal : true,
-                                        popImage : warningSign
-                                    })
+                                <Link to={{
+                                    pathname: `/kategori/editkategori`
                                 }}>
-                                </i>
-                                }
+                                    <i className="far fa-eye bg-light p-2 rounded-circle text-secondary m-2"></i>
+                                </Link>
+                                <Link to={{
+                                    pathname: `/kategori/editkategori`
+                                }}>
+                                    <i className="fas fa-pencil-alt bg-light p-2 rounded-circle text-warning m-2"></i>
+                                </Link>
+                                <i
+                                    className="fas fa-trash-alt bg-light p-2 rounded-circle text-danger m-2" onClick={() => {
+                                        this.setState({
+                                            verifName: item.name,
+                                            verifId: item.id,
+                                            deleteModal: true,
+                                            popImage: warningSign,
+                                        })
+                                    }}
+                                ></i>
                             </div>
                         </div>
                     </td>
@@ -341,82 +307,83 @@ export default class Product extends Component {
         }
     }
 
-    TempSuccess = ()=>{
-        return(
+    TempSuccess = () => {
+        return (
             <div className="pop-modal">
                 <center>
-                <img className='pb-4' src={this.state.popImage} alt="" />
+                    <img className='pb-4' src={this.state.popImage} alt="" />
                     <p>
-                     {this.state.verifName} {this.state.popMessage}
+                        {this.state.verifName} {this.state.popMessage}
                     </p>
                 </center>
             </div>
         )
     }
 
-    TempVerif = ()=>{
-        return(
+    TempVerif = () => {
+        return (
             <div className="pop-modal">
                 <center>
-                <img src={this.state.popImage} alt="" />
+                    <img src={this.state.popImage} alt="" />
                     <p>
-                    Apakah Anda yakin untuk <br />
-                    memverifikasi {this.state.verifName}?
+                        Apakah Anda yakin untuk <br />
+                        memverifikasi {this.state.verifName}?
                     </p>
-                <button type="button" className="Rectangle-373" onClick={this.approveProduct}>YA</button>
-                <button type="button" className="Rectangle-374" onClick={()=>this.setState({confirModal : false})}>BATAL</button>
+                    <button type="button" className="Rectangle-373" onClick={this.approveProduct}>YA</button>
+                    <button type="button" className="Rectangle-374" onClick={() => this.setState({ confirModal: false })}>BATAL</button>
                 </center>
             </div>
         )
     }
 
-    TempVerifDelete = ()=>{
-        return(
+    TempVerifDelete = () => {
+        return (
             <div className="pop-modal">
                 <center>
-                <img src={this.state.popImage} alt="" />
+                    <img src={this.state.popImage} alt="" />
                     <p>
-                    Apakah Anda yakin untuk <br />
-                    menghapus {this.state.verifName}?
+                        Apakah Anda yakin untuk <br />
+                        menghapus {this.state.verifName}?
                     </p>
-                <button type="button" className="Rectangle-373" onClick={this.handleDeleteProduct}>YA</button>
-                <button type="button" className="Rectangle-374" onClick={()=>this.setState({deleteModal : false})}>BATAL</button>
+                    <button type="button" className="Rectangle-373" onClick={this.handleDeleteProduct}>YA</button>
+                    <button type="button" className="Rectangle-374" onClick={() => this.setState({ deleteModal: false })}>BATAL</button>
                 </center>
             </div>
         )
     }
-    
+
 
     render() {
+        console.log(this.state.getDataSpot);
 
         return (
             <div className='py-5 produk'>
                 {/* modal */}
                 <Modal
-                isOpen={this.state.successModal}
-                onAfterOpen={this.afterOpenModal}
-                onRequestClose={this.closeModal}
-                style={customStyles}
+                    isOpen={this.state.successModal}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
                 // contentLabel="Example Modal"
                 >
-                <this.TempSuccess/>
+                    <this.TempSuccess />
                 </Modal>
 
                 <Modal
-                isOpen={this.state.deleteModal}
-                onAfterOpen={this.afterOpenModal}
-                onRequestClose={this.closeModal}
-                style={customStyles}
+                    isOpen={this.state.deleteModal}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
                 // contentLabel="Example Modal"
                 >
-                <this.TempVerifDelete/>
+                    <this.TempVerifDelete />
                 </Modal>
 
                 <Modal
-                isOpen={this.state.confirModal}
-                onAfterOpen={this.afterOpenModal}
-                onRequestClose={this.closeModal}
-                style={customStyles}
+                    isOpen={this.state.confirModal}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
                 // contentLabel="Example Modal"
                 >
                     <this.TempVerif />
@@ -424,13 +391,13 @@ export default class Product extends Component {
 
                 {/* loading */}
                 <SyncLoader
-                sizeUnit={"px"}
-                size={10}
-                color={'#cb9656'}
-                loading={this.state.loading}
+                    sizeUnit={"px"}
+                    size={10}
+                    color={'#cb9656'}
+                    loading={this.state.loading}
                 />
                 <div className='container  pb-5'>
-                    <h1 className='title-page'>PRODUK</h1>
+                    <h1 className='title-page'>SPOT</h1>
                     <br />
                     <div className='row'>
                         <div className='komplit col-md-3'>
@@ -473,11 +440,11 @@ export default class Product extends Component {
                             <button
                                 type="button"
                                 className="w-100 text-center search-produk"
-                                onClick={this.getApiProduct}>Cari</button>
+                                onClick={this.getApiProduct}>Search</button>
                         </div>
                         <div className='col-md-3 '>
                             <Link to='/produk/tambahproduk'>
-                                <button type="button" className="btn-g text-center tambah-produk w-100">+ Tambah Produk</button>
+                                <button type="button" className="btn-g text-center tambah-produk w-100">+ Add Spot</button>
                             </Link>
                         </div>
                     </div>
@@ -486,19 +453,16 @@ export default class Product extends Component {
                     <table className="table table-borderless">
                         <thead>
                             <tr className='border-bottom'>
-                                <th scope="col">No</th>
-                                <th scope="col">Gambar Produk</th>
-                                <th scope="col">Nama Produk</th>
-                                <th scope="col">Kategori</th>
-                                <th scope="col">Sub-Kategori</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Satuan</th>
-                                <th scope="col">Verify</th>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Updated</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {this.listProduct()}
+                            {this.listSpot()}
                         </tbody>
                     </table>
                     <hr />

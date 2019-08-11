@@ -38,7 +38,9 @@ class AddCategory extends Component {
         error: [],
 
         icon: '',
-        name: ''
+        name: '',
+        previewIcon: null,
+        times: {}
     }
 
     handleChange = (e) => {
@@ -49,7 +51,11 @@ class AddCategory extends Component {
     }
 
     onChangeIcon = (e) => {
-        console.log(e.target.files);
+        console.log(e.target.files[0]);
+        // console.log(URL.createObjectURL(e.target.files[0]));
+        // this.setState({
+        //     previewIcon: e.target.files[0]
+        // })
 
 
         const url = ENV.BASE_URL_API + API.UPLOAD_ICON
@@ -62,9 +68,12 @@ class AddCategory extends Component {
             .then(({ data }) => {
                 this.setState({
                     icon: data.data.link,
+                    // previewIcon: e.target.files[0],
                     loading: false
                 }, () => {
                     console.log(this.state.icon);
+                    // console.log(this.state.previewIcon);
+
                 })
             })
             .catch(err => {
@@ -93,13 +102,16 @@ class AddCategory extends Component {
             tampilModal: false
         })
 
+        console.log(this.state);
+
+
 
         const url = ENV.BASE_URL_API + API.CREATE_CATEGORY
         const data = {
-            Name: this.state.name,
-            Icon: this.state.icon
+            name: this.state.name,
+            icon: this.state.icon
         }
-        console.log(data)
+        // console.log(data)
         // const config = {
         //     headers: {
         //         "Authorization": `Bearer ${this.state.token}`,
@@ -121,16 +133,16 @@ class AddCategory extends Component {
             .catch((err) => {
                 this.setState({
                     suksesModal: true,
-                    popMessage: `Gagal menambahkan! ${this.state.error.replace(/[\{[\]}']+/g, " ")}`,
+                    // popMessage: `Gagal menambahkan! ${this.state.error.replace(/[\{[\]}']+/g, " ")}`,
                     popImage: warningSign,
                     loading: false
                 })
                 setTimeout(() => this.setState({ suksesModal: false }), 4000);
-                var errorMessage = err.response.data.meta.message.map(res => {
-                    this.setState({
-                        error: JSON.stringify(res)
-                    })
-                })
+                // var errorMessage = err.response.data.meta.message.map(res => {
+                //     this.setState({
+                //         error: JSON.stringify(res)
+                //     })
+                // })
                 console.log(this.state.error);
             })
 
@@ -140,6 +152,8 @@ class AddCategory extends Component {
         //         console.log(val);
         //     }
         // }
+        console.log(data);
+
     }
 
     TempSuccess = () => {
@@ -205,15 +219,21 @@ class AddCategory extends Component {
                         </div>
                         <div className="">
                             <p className="category-name">Category Name</p>
-                            <input type="text" className="form-control Rectangle-1335" name="name" id="exampleFormControlInput1" onChange={this.handleChange} required />
+                            <input type="text" className="form-control Rectangle" name="name" id="exampleFormControlInput1" onChange={this.handleChange} required />
                         </div>
-                      
+                        <p className="category-name">Category Icon</p>
+                        <div class="custom-file">
+                            <input type="file" name='image' id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" onChange={this.onChangeIcon} />
+                            {/* <label class="custom-file-label" for="inputGroupFile04" ></label> */}
+                        </div>
+
                     </div>
                     <div className="text-center">
 
                         <p>
                             <button onClick={this.handleSend} className="add-button cat">Add</button>
                         </p>
+                        
                     </div>
                 </div>
             </div>
