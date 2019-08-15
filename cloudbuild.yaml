@@ -12,7 +12,7 @@ steps:
         master)
           mv app.prod.yaml app.yaml
          ;;
-        develop)
+        development)
           mv app.dev.yaml app.yaml
           ;;
         *)
