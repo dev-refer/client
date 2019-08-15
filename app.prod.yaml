@@ -1,4 +1,4 @@
- runtime: nodejs10
+runtime: nodejs10
 service: refer-dev
 handlers:
   - url: /static/js/(.*)
