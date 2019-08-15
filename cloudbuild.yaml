@@ -1,0 +1,26 @@
+steps:
+  - name: gcr.io/cloud-builders/npm
+    args: ['install']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      echo "Deploying and building branch $BRANCH_NAME @ $REPO_NAME... "
+      case $BRANCH_NAME in
+        master)
+          mv app.prod.yaml app.yaml
+         ;;
+        develop)
+          mv app.dev.yaml app.yaml
+          ;;
+        *)
+          echo "branch $BRANCH_NAME ignored."
+      esac  
+
+  - name: gcr.io/cloud-builders/npm
+    args: ['run', 'build']
+
+  - name: gcr.io/cloud-builders/gcloud
+    args: ['app', 'deploy', '-v', '1']
