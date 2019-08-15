@@ -1,7 +1,7 @@
 .base-sub {
     padding-left: 60px !important;
     padding-right: 50px !important;
-    width: 1369px !important;
+    /* width: 1369px !important; */
 }
 
 .base-sub input[type='text'],
