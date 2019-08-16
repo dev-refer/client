@@ -45,29 +45,28 @@ class Base extends Component {
                                 </nav>
                             </div>
                         </div>
-                        <div className="">
-                            <div className="col-md p-0">
-                                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                        <form className="form-inline my-2 my-lg-0">
-                                            <div className="">
-                                                <input className="form-control mr-sm-2 tes" type="search" placeholder="Search" aria-label="Search" />
-                                            </div>
-                                            <div>
-                                                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                                            </div>
-                                        </form>
-                                        <div className="col-md w-100 py-2 admin">
-                                            <div className="container text-right">
-                                                <i className="fas fa-user mr-3 "></i>
-                                                Hello,&nbsp;
-                                            </div>
+                        {/* <div className=""> */}
+                        <div className="col-md p-0">
+                            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <form className="form-inline my-2 my-lg-0">
+                                        <div className="">
+                                            <input className="form-control mr-sm-2 tes" type="search" placeholder="Search" aria-label="Search" />
                                         </div>
+                                        <div>
+                                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                        </div>
+                                    </form>
+                                    <div className="col-md w-100 py-2 admin">
+                                        <div className="container text-right">
+                                            <i className="fas fa-user mr-3 "></i>
+                                            Hello,&nbsp;
+                                            </div>
                                     </div>
-                                </nav>
-                                <div>
-
                                 </div>
+                            </nav>
+                            <div>
+
                             </div>
                             <div className="base-sub">
                                 <Switch>
@@ -76,6 +75,7 @@ class Base extends Component {
                                 </Switch>
                             </div>
                         </div>
+                        {/* </div> */}
                     </div>
                 </div>
 
