@@ -61,7 +61,7 @@ class Base extends Component {
                                             <div className="container text-right">
                                                 <i className="fas fa-user mr-3 "></i>
                                                 Hello,&nbsp;
-                                    </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </nav>
