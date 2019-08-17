@@ -110,7 +110,7 @@ export default function SignUp() {
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
                     Create Category
-        </Typography>
+                </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -140,7 +140,7 @@ export default function SignUp() {
                         className={classes.submit}
                     >
                         Create
-          </Button>
+                    </Button>
 
                 </form>
             </div>

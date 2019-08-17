@@ -18,6 +18,8 @@ import { mainListItems, secondaryListItems } from '../../components/listSideBar'
 
 import { Route } from 'react-router-dom'
 import CreatCategory from '../../components/Category/create';
+import SpotList from '../../components/Spot/SpotList';
+import CreateSpot from '../../components/Spot/CreateSpot';
 
 
 const drawerWidth = 240;
@@ -127,7 +129,7 @@ export default function Dashboard() {
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Refer Admin
-          </Typography>
+                    </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
@@ -156,6 +158,8 @@ export default function Dashboard() {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                   <Route path='/dashboard/create-category' component={CreatCategory}/>
+                  <Route path='/dashboard/spot' component={SpotList}/>
+                  <Route path='/dashboard/create-spot' component={CreateSpot}/>
                 </Container>
             </main>
         </div>
