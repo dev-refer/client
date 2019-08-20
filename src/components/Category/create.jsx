@@ -93,6 +93,7 @@ export default function SignUp() {
                     text: 'success create category',
                     timer: 1500
                 })
+                setTimeout(() => window.location.href = '/dashboard/category', 2000);
             })
             .catch(err => {
                 setLoading(false)

@@ -17,7 +17,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from '../../components/listSideBar';
 
 import { Route } from 'react-router-dom'
+import CategoryList from '../../components/Category/CategoryList';
 import CreatCategory from '../../components/Category/create';
+import EditCategory from '../../components/Category/EditCategory';
 import SpotList from '../../components/Spot/SpotList';
 import CreateSpot from '../../components/Spot/CreateSpot';
 
@@ -125,7 +127,7 @@ export default function Dashboard() {
                         onClick={handleDrawerOpen}
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
-                        <MenuIcon />
+                    <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Refer Admin
@@ -157,9 +159,11 @@ export default function Dashboard() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                  <Route path='/dashboard/create-category' component={CreatCategory}/>
-                  <Route path='/dashboard/spot' component={SpotList}/>
-                  <Route path='/dashboard/create-spot' component={CreateSpot}/>
+                    <Route path='/dashboard/category' component={CategoryList} />
+                    <Route path='/dashboard/create-category' component={CreatCategory} />
+                    <Route path='/dashboard/spot' component={SpotList} />
+                    <Route path='/dashboard/create-spot' component={CreateSpot} />
+                    <Route path='/dashboard/edit-category/:id/:name' component={EditCategory}/>
                 </Container>
             </main>
         </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-// import Container from '@material-ui/core/Container'
+import { Link } from 'react-router-dom'
+import Pagination from 'react-js-pagination'
 
 import '../Spot/spotlist.css'
 
@@ -10,45 +11,107 @@ import Loading from '../../components/Loading'
 class SpotList extends Component {
 
     state = {
-        loading: false
+        loading: false,
+        getDataSpot: [],
+        totalPage: '',
+        page: "",
     }
 
-    onSubmitCategory = () => {
+    componentDidMount() {
+        this.getSpotList()
+    }
 
+    handlePageChange = (pageNumber) => {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({ page: pageNumber });
+        this.getSpotList(pageNumber)
+    }
+
+    getSpotList = () => {
+
+        this.setState({ loading: true })
 
         axios({
-            method: 'POST',
-            data: {
-                // icon,
-                // name
-            },
+            method: 'GET',
             headers: {
                 token: localStorage.getItem('token')
             },
-            url: '/v1/categories'
+            url: '/v1/spots'
         })
-            .then(data => {
-                // setLoading(false)
-                swal.fire({
-                    type: 'success',
-                    text: 'success create category',
-                    timer: 1500
+            .then(res => {
+
+                this.setState({
+                    loading: false,
+                    getDataSpot: res.data.data,
+                    page: res.data.data.page
                 })
+                console.log(this.state.getDataSpot);
+                // swal.fire({
+                //     type: 'success',
+                //     text: 'success create category',
+                //     timer: 1500
+                // })
             })
             .catch(err => {
                 // setLoading(false)
                 swal.fire({
                     type: 'error',
-                    title: 'error while create category',
+                    title: 'error get spot data',
                     text: err.message
                 })
+                console.log(err.response);
+
             })
     }
 
+    listSpot = () => {
+        var list = this.state.getDataSpot.map((item, i) => {
+            var { name, city } = item
+            return (
+                <tr key={i}>
+                    <th scope="row">
+                        {i + 1}
+                    </th>
+                    <td>
+                        {name}
+                    </td>
+                    <td>
+                        {city}
+                    </td>
+                    <td>
+                        <div className='row'>
+                            <div className='col'>
+
+                                <Link to={{
+                                    pathname: `/kategori/editkategori`
+                                }}>
+                                    <i className="far fa-eye bg-light p-2 rounded-circle text-secondary m-2"></i>
+                                </Link>
+                                <Link to={{
+                                    pathname: `/kategori/editkategori`
+                                }}>
+                                    <i className="fas fa-pencil-alt bg-light p-2 rounded-circle text-warning m-2"></i>
+                                </Link>
+                                <i
+                                    className="fas fa-trash-alt bg-light p-2 rounded-circle text-danger m-2"
+                                ></i>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            )
+
+        })
+        return list
+    }
+
     render() {
+        console.log(this.state);
+
+
         return (
             <div>
-                <h1>Spot</h1>
+                <h2>Spot</h2>
                 <br />
                 <div className="container-fluid p-0">
                     <div className="row">
@@ -56,10 +119,13 @@ class SpotList extends Component {
                             <form className="form-inline">
                                 <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Search" />
                                 <button type="submit" class="btn btn-primary mb-2">Search</button>
+
                             </form>
                         </div>
                         <div className="col-md text-right">
-                            <button type="submit" class="btn btn-secondary mb-2">+ Add Spot</button>
+                            <Link to='/dashboard/create-spot'>
+                                <button type="button" class="btn btn-secondary mb-2">+ Add Spot</button>
+                            </Link>
                         </div>
                     </div>
 
@@ -67,35 +133,34 @@ class SpotList extends Component {
                 <br />
                 <div className="tab-border">
                     <table className="table table-striped">
-                        <thead className="thead-dark">
+                        <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            {
+                                this.state.loading ? <Loading /> : this.listSpot()
+                            }
                         </tbody>
                     </table>
+                </div>
+                <div className='float-right'>
+                    <nav aria-label="Page navigation example">
+                        <Pagination
+                            // hideNavigation
+                            pageRangeDisplayed={5} //range number yg di tampilkan
+                            activePage={this.state.page == "" ? 5 : this.state.page} //class active
+                            itemsCountPerPage={1} //satu page di hitung 1 number di kotak pagination
+                            totalItemsCount={this.state.totalPage} //total page nyanya 
+                            onChange={this.handlePageChange}
+                        />
+                    </nav>
+
+
                 </div>
             </div>
         )
