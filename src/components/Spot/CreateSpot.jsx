@@ -12,9 +12,14 @@ class CreateSpot extends Component {
     state = {
         loading: false,
         times: {},
-        getDataCategory: [],
-        Latitude: '',
-        Longitude: '',
+        getCategory: [],
+        latitude: '',
+        longitude: '',
+        image: []
+    }
+
+    componentDidMount(){
+        this.getCategoryList()
     }
 
 
@@ -80,13 +85,17 @@ class CreateSpot extends Component {
             },
             url: '/v1/categories'
         })
-            .then(res => {
-
+            .then((res) => {
+                
                 this.setState({
                     loading: false,
-                    getDataCategory: res.data.data
+                    getCategory: res.data.data
+                    
                 })
-                console.log(this.state.getDataCategory);
+                console.log(res.data.data);
+               
+                
+                
                 // swal.fire({
                 //     type: 'success',
                 //     text: 'success create category',
@@ -104,7 +113,7 @@ class CreateSpot extends Component {
     }
 
     listCategories = () => {
-        let mapList = this.state.getDataCategory.map((list, i) => {
+        let mapList = this.state.getCategory.map((list, i) => {
             return (
                 <option key={i} value={list.id}>{list.name}</option>
             )
@@ -183,17 +192,50 @@ class CreateSpot extends Component {
         return data
     }
 
-    handleSend = () => {
+    onChangeImage = (e) => {
+        console.log(e.target.files[0]);
+
+        const data = new FormData()
+        data.append('image', e.target.files[0])
+        this.setState({
+            loading: true
+        })
+        axios({
+            method: 'POST',
+            headers: {
+                token: localStorage.getItem('token')
+            },
+            url: '/image/single',
+            data
+        })
+            .then(({ data }) => {
+
+                this.setState({
+                    image: [...this.state.image, data.link],
+                    // previewIcon: e.target.files[0],
+                    loading: false
+                }, () => {
+                    console.log(this.state.image);
+               
+                    
+                    // console.log(this.state.previewIcon);
+
+                })
+            })
+            .catch(err => {
+                alert(err.message)
+                this.setState({
+                    loading: false
+                })
+            })
+    }
+
+    handleSend = (e) => {
         const operatingTimes = this.validateTimes()
         if (operatingTimes) {
             // axios post bikin karna udah di validasi
 
-            this.setState({
-                loading: true,
-                tampilModal: false
-            })
-
-            // const url = ENV.BASE_URL_API + API.CREATE_SPOT
+           
             const data = {
                 name: this.state.name,
                 address: this.state.address,
@@ -206,28 +248,50 @@ class CreateSpot extends Component {
                 operatingTimes,
                 image: this.state.image
             }
+            swal.fire({
+                title: 'Are you sure want to add spot?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+              })
+            .then((result) => {
 
-            axios.post(/*url*/ data)
-                .then((res) => {
-                    console.log(res);
-                    this.setState({
-
-                        popMessage: ` berhasil \n ditambahkan!`,
-
-                        loading: false
+                if (result.value){             
+                    axios({
+                        method: 'POST',
+                        headers: {
+                            token: localStorage.getItem('token')
+                        },
+                        url: '/v1/spots',
+                        data
                     })
-                    setTimeout(() => this.setState({ suksesModal: false }), 2000);
-                    setTimeout(() => window.location.href = '/produk', 2000);
-
-                })
-                .catch((err) => {
-                    console.log(err);
-
-                })
-        } else {
+                        .then((res) => {
+                            console.log(res);
+                            console.log(e.value);
+                            
+                                swal.fire(
+                                  'Added!',
+                                  'New spot has been added',
+                                  'success'
+                                )
+                                setTimeout(() => window.location.href = '/dashboard/spot', 2500);
+                        })
+                        .catch((err) => {
+                            console.log(err);       
+                        })
+                }else if(result.dismiss == swal.DismissReason.cancel){
+                    swal.fire(
+                      'Cancelled',
+                    )}
+            })
+        } 
+        else {
             // alest tentang waktu masih ada yang kosong
             alert('masih ada yang kosong')
         }
+        e.preventDefault()
     }
 
     imageInput = () => {
@@ -249,15 +313,15 @@ class CreateSpot extends Component {
 
 
 
-    render() {
-        console.log(this.state.getDataCategory);
+    render() {    
+        console.log(this.state);
         let lat = Number(this.state.Latitude)
         let long = Number(this.state.Longitude)
 
         return (
             <div className='p-1'>
 
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSend}>
                     <div className='container-fluid'>
                         <h2 className='title-page'><Link to='/dashboard/spot'><i className="fas fa-chevron-left" ></i></Link> Add Spot</h2>
                         <br />
@@ -294,7 +358,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Monday" id="Monday" name="Monday" onChange={this.changeDate} checked={this.state.times.Monday ? true : false} />
-                                            <label class="custom-control-label" for="Monday">Monday</label>
+                                            <label className="custom-control-label" for="Monday">Monday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Monday" value={this.state.times.Monday ? this.state.times.Monday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -304,7 +368,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Tuesday" id="Tuesday" name="Tuesday" onChange={this.changeDate} checked={this.state.times.Tuesday ? true : false} />
-                                            <label class="custom-control-label" for="Tuesday">Tuesday</label>
+                                            <label className="custom-control-label" for="Tuesday">Tuesday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Tuesday" value={this.state.times.Tuesday ? this.state.times.Tuesday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -314,7 +378,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Wednesday" id="Wednesday" name="Wednesday" onChange={this.changeDate} checked={this.state.times.Wednesday ? true : false} />
-                                            <label class="custom-control-label" for="Wednesday">Wednesday</label>
+                                            <label className="custom-control-label" for="Wednesday">Wednesday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Wednesday" value={this.state.times.Wednesday ? this.state.times.Wednesday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -324,7 +388,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Thursday" id="Thursday" name="Thursday" onChange={this.changeDate} checked={this.state.times.Thursday ? true : false} />
-                                            <label class="custom-control-label" for="Thursday">Thursday</label>
+                                            <label className="custom-control-label" for="Thursday">Thursday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Thursday" value={this.state.times.Thursday ? this.state.times.Thursday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -334,7 +398,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Friday" id="Friday" name="Friday" onChange={this.changeDate} checked={this.state.times.Friday ? true : false} />
-                                            <label class="custom-control-label" for="Friday">Friday</label>
+                                            <label className="custom-control-label" for="Friday">Friday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Friday" value={this.state.times.Friday ? this.state.times.Friday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -345,7 +409,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Saturday" id="Saturday" name="Saturday" onChange={this.changeDate} checked={this.state.times.Saturday ? true : false} />
-                                            <label class="custom-control-label" for="Saturday">Saturday</label>
+                                            <label className="custom-control-label" for="Saturday">Saturday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Saturday" value={this.state.times.Saturday ? this.state.times.Saturday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -355,7 +419,7 @@ class CreateSpot extends Component {
                                     <div className="custom-control custom-checkbox">
                                         <div>
                                             <input type="checkbox" className="custom-control-input Sunday" id="Sunday" name="Sunday" onChange={this.changeDate} checked={this.state.times.Sunday ? true : false} />
-                                            <label class="custom-control-label" for="Sunday">Sunday</label>
+                                            <label className="custom-control-label" for="Sunday">Sunday</label>
                                         </div>
                                         <div>
                                             <input onChange={this.changeTimesOpen} type="time" name="Open" className="Sunday" value={this.state.times.Sunday ? this.state.times.Sunday.Open : '--:--'} /> to <nbsp /><nbsp />
@@ -396,9 +460,6 @@ class CreateSpot extends Component {
                                     <input type="text" className="form-control" id="" name="longitude" onChange={this.handleChange} required />
                                 </div>
                             </div>
-
-
-
                             <label>Maps</label> <br />
                             <Maps lat={lat} long={long} />
                         </div>
@@ -413,7 +474,7 @@ class CreateSpot extends Component {
                     {/* <button onClick={() => { console.log(this.state) }}>check state</button> */}
                     <br />
                     <center>
-                        <button type="submit" className=" btn px-5  text-center btn-add-produk" >Add Spot</button>
+                        <button type="submit" className=" btn px-5  btn-primary text-center btn-add-produk" >Add Spot</button>
                     </center>
                 </form>
             </div>

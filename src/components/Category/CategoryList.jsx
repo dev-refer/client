@@ -106,15 +106,15 @@ class CategoryList extends Component {
                     <td>
                         <div className='row'>
                             <div className='col'>
-                                <i class="fas fa-list-ul bg-light p-2 rounded-circle text-secondary m-2"></i>
+                                <i class="fas fa-list-ul bg-light p-2 rounded-circle border text-secondary m-2"></i>
                                 <Link to={{
                                     pathname: `/dashboard/edit-category/${id}/${name}`
                                 }}>
-                                    <i className="fas fa-pencil-alt bg-light p-2 rounded-circle text-warning m-2"></i>
+                                    <i className="fas fa-pencil-alt bg-light p-2 rounded-circle border text-warning m-2"></i>
                                 </Link>
 
                                 <i
-                                    className="fas fa-trash-alt bg-light p-2 rounded-circle text-danger m-2" onClick={() => {
+                                    className="fas fa-trash-alt bg-light p-2 rounded-circle border text-danger m-2" onClick={() => {
                                         this.setState({
                                             verifName: item.name,
                                             verifId: item.id,
@@ -123,8 +123,9 @@ class CategoryList extends Component {
                                         })
                                     }}
                                 ></i>
-                                <i class="btn btn-outline-light p-1 img-thumbnail text-secondary m-3"> + Spot </i>
-
+                                <Link to={{ pathname: '/dashboard/create-spot' }}>
+                                    <i class="btn btn-outline-light p-1 img-thumbnail border text-secondary m-3"> + Spot </i>
+                                </Link>
                             </div>
                         </div>
                     </td>

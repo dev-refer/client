@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CategoryIcon from '@material-ui/icons/List'
 import SpotIcon from '@material-ui/icons/LocationOn'
 import LogoutIcon from '@material-ui/icons/ExitToAppOutlined'
-import { ListSubheader } from '@material-ui/core'
+// import { ListSubheader } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
 export const mainListItems = (

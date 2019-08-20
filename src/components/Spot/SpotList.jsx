@@ -13,6 +13,7 @@ class SpotList extends Component {
     state = {
         loading: false,
         getDataSpot: [],
+        deleteModal: false,
         totalPage: '',
         page: "",
     }
@@ -38,7 +39,7 @@ class SpotList extends Component {
             },
             url: '/v1/spots'
         })
-            .then(res => {
+            .then((res) => {
 
                 this.setState({
                     loading: false,
@@ -46,6 +47,8 @@ class SpotList extends Component {
                     page: res.data.data.page
                 })
                 console.log(this.state.getDataSpot);
+                console.log(res.data);
+                
                 // swal.fire({
                 //     type: 'success',
                 //     text: 'success create category',
@@ -83,17 +86,22 @@ class SpotList extends Component {
                             <div className='col'>
 
                                 <Link to={{
-                                    pathname: `/kategori/editkategori`
+                                    pathname: `/dashboard/view-spot`
                                 }}>
-                                    <i className="far fa-eye bg-light p-2 rounded-circle text-secondary m-2"></i>
+                                    <i className="far fa-eye bg-light p-2 rounded-circle border text-secondary m-2"></i>
                                 </Link>
                                 <Link to={{
-                                    pathname: `/kategori/editkategori`
+                                    pathname: `/dashboard/edit-spot`
                                 }}>
-                                    <i className="fas fa-pencil-alt bg-light p-2 rounded-circle text-warning m-2"></i>
+                                    <i className="fas fa-pencil-alt bg-light p-2 rounded-circle border text-warning m-2"></i>
                                 </Link>
                                 <i
-                                    className="fas fa-trash-alt bg-light p-2 rounded-circle text-danger m-2"
+                                    className="fas fa-trash-alt bg-light p-2 rounded-circle border text-danger m-2" onClick={() => {
+                                        this.setState({
+                                            verifName: item.name,
+                                            verifId: item.id,
+                                        })
+                                    }}
                                 ></i>
                             </div>
                         </div>
@@ -103,6 +111,26 @@ class SpotList extends Component {
 
         })
         return list
+    }
+
+    deleteModal = () => {
+        swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.value) {
+              swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            }
+          })
     }
 
     render() {
@@ -117,14 +145,14 @@ class SpotList extends Component {
                     <div className="row">
                         <div className="col-md-6">
                             <form className="form-inline">
-                                <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Search" />
-                                <button type="submit" class="btn btn-primary mb-2">Search</button>
+                                <input type="text" className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Search" />
+                                <button type="submit" className="btn btn-primary mb-2">Search</button>
 
                             </form>
                         </div>
                         <div className="col-md text-right">
                             <Link to='/dashboard/create-spot'>
-                                <button type="button" class="btn btn-secondary mb-2">+ Add Spot</button>
+                                <button type="button" className="btn btn-secondary mb-2">+ Add Spot</button>
                             </Link>
                         </div>
                     </div>
@@ -152,15 +180,13 @@ class SpotList extends Component {
                     <nav aria-label="Page navigation example">
                         <Pagination
                             // hideNavigation
-                            pageRangeDisplayed={5} //range number yg di tampilkan
-                            activePage={this.state.page == "" ? 5 : this.state.page} //class active
-                            itemsCountPerPage={1} //satu page di hitung 1 number di kotak pagination
+                            pageRangeDisplayed={12} //range number yg di tampilkan
+                            activePage={this.state.page === "" ? 5 : this.state.page} //class active
+                            itemsCountPerPage={5} //satu page di hitung 1 number di kotak pagination
                             totalItemsCount={this.state.totalPage} //total page nyanya 
                             onChange={this.handlePageChange}
                         />
                     </nav>
-
-
                 </div>
             </div>
         )
