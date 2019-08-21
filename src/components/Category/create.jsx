@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, Input, InputLabel } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import { Link } from 'react-router-dom'
 
 import swal from 'sweetalert2'
 import axios from '../../libs/axios'
@@ -93,6 +94,7 @@ export default function SignUp() {
                     text: 'success create category',
                     timer: 1500
                 })
+                setTimeout(() => window.location.href = '/dashboard/category', 2000);
             })
             .catch(err => {
                 setLoading(false)
@@ -104,13 +106,17 @@ export default function SignUp() {
             })
     }
     return (
+        
         <Container component="main" maxWidth="xs">
+            <h2><Link to='/dashboard/category'><i className="fas fa-chevron-left" ></i></Link>  Create Category</h2>
             {loading ? <Loading classes={classes} /> : null}
+            
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                {/* <Typography component="h1" variant="h5">
                     Create Category
-        </Typography>
+                </Typography> */}
+                
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -140,7 +146,7 @@ export default function SignUp() {
                         className={classes.submit}
                     >
                         Create
-          </Button>
+                    </Button>
 
                 </form>
             </div>
