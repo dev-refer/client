@@ -1,5 +1,5 @@
 runtime: nodejs10
-service: refer-dev
+service: refer-web
 handlers:
   - url: /static/js/(.*)
     static_files: build/static/js/\1
