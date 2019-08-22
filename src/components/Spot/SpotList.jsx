@@ -69,7 +69,7 @@ class SpotList extends Component {
 
     listSpot = () => {
         var list = this.state.getDataSpot.map((item, i) => {
-            var { name, city } = item
+            var { name, city, id } = item
             return (
                 <tr key={i}>
                     <th scope="row">
@@ -91,7 +91,7 @@ class SpotList extends Component {
                                     <i className="far fa-eye bg-light p-2 rounded-circle border text-secondary m-2"></i>
                                 </Link>
                                 <Link to={{
-                                    pathname: `/dashboard/edit-spot`
+                                    pathname: `/dashboard/edit-spot/${id}/${name}`
                                 }}>
                                     <i className="fas fa-pencil-alt bg-light p-2 rounded-circle border text-warning m-2"></i>
                                 </Link>
