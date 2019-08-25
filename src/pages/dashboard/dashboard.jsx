@@ -166,8 +166,8 @@ export default function Dashboard() {
                     <Route path='/dashboard/edit-category/:id/:name' component={EditCategory}/>
                     <Route path='/dashboard/spot' component={SpotList} />
                     <Route path='/dashboard/create-spot' component={CreateSpot} />
-                    <Route path='/dashboard/edit-spot/:id/:name' component={EditSpot} />
-                    <Route path='/dashboard/view-spot/:id/:name' component={ViewSpot} />
+                    <Route path='/dashboard/edit-spot/:name' component={EditSpot} />
+                    <Route path='/dashboard/view-spot/:id' component={ViewSpot} />
 
                 </Container>
             </main>

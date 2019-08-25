@@ -15,10 +15,14 @@ class CreateSpot extends Component {
         getCategory: [],
         latitude: '',
         longitude: '',
-        image: []
+        gambar1: {},
+        gambar2: {},
+        gambar3: {},
+        image: [],
+
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getCategoryList()
     }
 
@@ -86,16 +90,16 @@ class CreateSpot extends Component {
             url: '/v1/categories'
         })
             .then((res) => {
-                
+
                 this.setState({
                     loading: false,
                     getCategory: res.data.data
-                    
+
                 })
                 console.log(res.data.data);
-               
-                
-                
+
+
+
                 // swal.fire({
                 //     type: 'success',
                 //     text: 'success create category',
@@ -216,8 +220,8 @@ class CreateSpot extends Component {
                     loading: false
                 }, () => {
                     console.log(this.state.image);
-               
-                    
+
+
                     // console.log(this.state.previewIcon);
 
                 })
@@ -235,7 +239,7 @@ class CreateSpot extends Component {
         if (operatingTimes) {
             // axios post bikin karna udah di validasi
 
-           
+
             const data = {
                 name: this.state.name,
                 address: this.state.address,
@@ -255,38 +259,39 @@ class CreateSpot extends Component {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes'
-              })
-            .then((result) => {
-
-                if (result.value){             
-                    axios({
-                        method: 'POST',
-                        headers: {
-                            token: localStorage.getItem('token')
-                        },
-                        url: '/v1/spots',
-                        data
-                    })
-                        .then((res) => {
-                            console.log(res);
-                            console.log(e.value);
-                            
-                                swal.fire(
-                                  'Added!',
-                                  'New spot has been added',
-                                  'success'
-                                )
-                                setTimeout(() => window.location.href = '/dashboard/spot', 2500);
-                        })
-                        .catch((err) => {
-                            console.log(err);       
-                        })
-                }else if(result.dismiss == swal.DismissReason.cancel){
-                    swal.fire(
-                      'Cancelled',
-                    )}
             })
-        } 
+                .then((result) => {
+
+                    if (result.value) {
+                        axios({
+                            method: 'POST',
+                            headers: {
+                                token: localStorage.getItem('token')
+                            },
+                            url: '/v1/spots',
+                            data
+                        })
+                            .then((res) => {
+                                console.log(res);
+                                // console.log(e.value);
+
+                                swal.fire(
+                                    'Added!',
+                                    'New spot has been added',
+                                    'success'
+                                )
+                                // setTimeout(() => window.location.href = '/dashboard/spot', 2500);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    } else if (result.dismiss == swal.DismissReason.cancel) {
+                        swal.fire(
+                            'Cancelled',
+                        )
+                    }
+                })
+        }
         else {
             // alest tentang waktu masih ada yang kosong
             alert('masih ada yang kosong')
@@ -294,29 +299,71 @@ class CreateSpot extends Component {
         e.preventDefault()
     }
 
+    handleChangeImage = (e) => {
+        let name = e.target.id
+        let file = { preview: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] }
+        console.log(name);
+        console.log(file);
+
+
+        if (!file) {
+            this.setState({
+                [name]: {}
+            })
+        } else {
+            this.setState({
+                [name]: file,
+            })
+            console.log([name]);
+
+        }
+
+    }
+
     imageInput = () => {
         return (
-            <div>
-                <div>
-                    <input name="image" type="file" id='gambar1' onChange={this.onChangeImage} />
-                </div>
-                <div>
-                    <input name="image" type="file" id='gambar1' onChange={this.onChangeImage} />
-                </div>
-                <div>
-                    <input name="image" type="file" id='gambar1' onChange={this.onChangeImage} />
-                </div>
-            </div>
 
+            <div>
+                
+                    <tr><input name="image" type="file" id='image' onChange={this.onChangeImage} /></tr>
+                    <tr><img src={this.state.image[0] ? this.state.image[0] : null} className="img" /></tr>
+                
+                <br />
+                <br />
+                
+                    {
+                        this.state.image[0] ?
+                            <div>
+                            <tr><input name="image" type="file" id='image' onChange={this.onChangeImage} /></tr>
+                            <tr><img src={this.state.image[1] ? this.state.image[1] : null} className="img" /></tr>
+                            </div>
+                            : null
+                    }
+                
+                <br />
+                <br />
+                
+                    {
+                        this.state.image[1] ?
+                            <div>
+                            <tr><input name="image" type="file" id='image' onChange={this.onChangeImage} /></tr>
+                            <tr><img src={this.state.image[2] ? this.state.image[2] : null} className="img" /></tr>
+                            </div>
+                            : null
+                    }
+                
+
+            </div>
         )
     }
 
 
 
-    render() {    
+    render() {
         console.log(this.state);
         let lat = Number(this.state.Latitude)
         let long = Number(this.state.Longitude)
+
 
         return (
             <div className='p-1'>
@@ -463,11 +510,15 @@ class CreateSpot extends Component {
                             <label>Maps</label> <br />
                             <Maps lat={lat} long={long} />
                         </div>
-                        <br/>
+                        <br />
                         <div className="form-group">
                             <label>Add Picture</label> <br />
                             <div className=''>
-                                {this.imageInput()}
+                                <table className="">
+                                    <thead>
+                                    {this.imageInput()}
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                     </div>

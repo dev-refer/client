@@ -17,13 +17,17 @@ class EditSpot extends Component {
         longitude: '',
         image: [],
         name: '',
-        description: ''
+        description: '',
+        operatingTimes: [],
+        categoryNames: []
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getCategoryList()
-        this.setState({ name: this.props.match.params.name })
+
+        this.getSpotDetail(this.props.match.params.name)
         console.log(this.props);
+
     }
 
 
@@ -90,16 +94,16 @@ class EditSpot extends Component {
             url: '/v1/categories'
         })
             .then((res) => {
-                
+
                 this.setState({
                     loading: false,
                     getCategory: res.data.data
-                    
+
                 })
                 console.log(res.data.data);
-               
-                
-                
+
+
+
                 // swal.fire({
                 //     type: 'success',
                 //     text: 'success create category',
@@ -220,8 +224,8 @@ class EditSpot extends Component {
                     loading: false
                 }, () => {
                     console.log(this.state.image);
-               
-                    
+
+
                     // console.log(this.state.previewIcon);
 
                 })
@@ -239,7 +243,7 @@ class EditSpot extends Component {
         if (operatingTimes) {
             // axios post bikin karna udah di validasi
 
-           
+
             const data = {
                 name: this.state.name,
                 address: this.state.address,
@@ -259,38 +263,39 @@ class EditSpot extends Component {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes'
-              })
-            .then((result) => {
+            })
+                .then((result) => {
 
-                if (result.value){             
-                    axios({
-                        method: 'POST',
-                        headers: {
-                            token: localStorage.getItem('token')
-                        },
-                        url: '/v1/spots',
-                        data
-                    })
-                        .then((res) => {
-                            console.log(res);
-                            console.log(e.value);
-                            
+                    if (result.value) {
+                        axios({
+                            method: 'POST',
+                            headers: {
+                                token: localStorage.getItem('token')
+                            },
+                            url: '/v1/spots',
+                            data
+                        })
+                            .then((res) => {
+                                console.log(res);
+                                console.log(e.value);
+
                                 swal.fire(
-                                  'Added!',
-                                  'New spot has been added',
-                                  'success'
+                                    'Added!',
+                                    'New spot has been added',
+                                    'success'
                                 )
                                 setTimeout(() => window.location.href = '/dashboard/spot', 2500);
-                        })
-                        .catch((err) => {
-                            console.log(err);       
-                        })
-                }else if(result.dismiss == swal.DismissReason.cancel){
-                    swal.fire(
-                      'Cancelled',
-                    )}
-            })
-        } 
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    } else if (result.dismiss == swal.DismissReason.cancel) {
+                        swal.fire(
+                            'Cancelled',
+                        )
+                    }
+                })
+        }
         else {
             // alest tentang waktu masih ada yang kosong
             alert('masih ada yang kosong')
@@ -315,9 +320,40 @@ class EditSpot extends Component {
         )
     }
 
+    getSpotDetail = (val) => {
+        axios({
+            method: 'GET',
+            headers: {
+                token: localStorage.getItem('token')
+            },
+            url: `/v1/spots/?id=${val}`
+        })
+            .then((res) => {
+                res.data.data.map(res => {
+                    this.setState({
+                        // spotDetail: res.data.data,
+                        name: res.name,
+                        categoryNames: res.categoryNames,
+                        description: res.description,
+                        phone: res.phone,
+                        operatingTimes: res.operatingTimes,
+                        city: res.city,
+                        address: res.address,
+                        latitude: res.latitude,
+                        longitude: res.longitude
+                    })
+                })
+            })
+            .catch((err) => {
+                console.log(err.response);
+
+            })
+    }
 
 
-    render() {    
+    render() {
+        console.log(this.state.categoryNames);
+
         console.log(this.state);
         let lat = Number(this.state.Latitude)
         let long = Number(this.state.Longitude)
@@ -341,19 +377,27 @@ class EditSpot extends Component {
                                     <div className="form-group">
                                         <label htmlFor="exampleFormControlInput1" >Category</label>
                                         <select className="custom-select" name="category" onChange={this.handleChangeCategory}>
-                                            <option value='' disabled selected>Pick a category</option>
+                                            {/* {this.state.categoryNames[0].name} */}
+                                            {
+                                                this.state.categoryNames.map(res => {
+                                                    console.log(res.name, 'hasil');
+                                                    return <option>{res.name}</option>
+
+                                                    // res.category
+                                                })
+                                            }
                                             {this.listCategories()}
                                         </select>
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="exampleFormControlTextarea1">Description</label>
-                                    <textarea className="form-control Rectangle" id="exampleFormControlTextarea1" rows="4"  value={this.state.description} name='description' onChange={this.handleChange} required></textarea>
+                                    <textarea className="form-control Rectangle" id="exampleFormControlTextarea1" rows="4" value={this.state.description} name='description' onChange={this.handleChange} required></textarea>
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="exampleFormControlInput1">Phone</label>
-                                    <input type="text" className="form-control Rectangle" id="" name="phone" onChange={this.handleChange} required />
+                                    <input type="text" className="form-control Rectangle" id="" name="phone" value={this.state.phone} onChange={this.handleChange} required />
                                 </div>
 
                                 <div className="form-group">
@@ -365,8 +409,8 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Monday">Monday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Monday" value={this.state.times.Monday ? this.state.times.Monday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Monday" value={this.state.times.Monday ? this.state.times.Monday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Monday" value={this.state.operatingTimes[0] ? this.state.operatingTimes[0].Monday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Monday" value={this.state.operatingTimes[0] ? this.state.operatingTimes[0].Monday.Close : null} />
                                         </div>
                                     </div>
                                     <div className="custom-control custom-checkbox">
@@ -375,8 +419,8 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Tuesday">Tuesday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Tuesday" value={this.state.times.Tuesday ? this.state.times.Tuesday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Tuesday" value={this.state.times.Tuesday ? this.state.times.Tuesday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Tuesday" value={this.state.operatingTimes[1] ? this.state.operatingTimes[1].Tuesday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Tuesday" value={this.state.operatingTimes[1] ? this.state.operatingTimes[1].Tuesday.Close : null} />
                                         </div>
                                     </div>
                                     <div className="custom-control custom-checkbox">
@@ -385,8 +429,8 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Wednesday">Wednesday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Wednesday" value={this.state.times.Wednesday ? this.state.times.Wednesday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Wednesday" value={this.state.times.Wednesday ? this.state.times.Wednesday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Wednesday" value={this.state.operatingTimes[2] ? this.state.operatingTimes[2].Wednesday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Wednesday" value={this.state.operatingTimes[2] ? this.state.operatingTimes[2].Wednesday.Close : null} />
                                         </div>
                                     </div>
                                     <div className="custom-control custom-checkbox">
@@ -395,8 +439,8 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Thursday">Thursday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Thursday" value={this.state.times.Thursday ? this.state.times.Thursday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Thursday" value={this.state.times.Thursday ? this.state.times.Thursday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Thursday" value={this.state.operatingTimes[3] ? this.state.operatingTimes[3].Thursday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Thursday" value={this.state.operatingTimes[3] ? this.state.operatingTimes[3].Thursday.Close : null} />
                                         </div>
                                     </div>
                                     <div className="custom-control custom-checkbox">
@@ -405,8 +449,8 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Friday">Friday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Friday" value={this.state.times.Friday ? this.state.times.Friday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Friday" value={this.state.times.Friday ? this.state.times.Friday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Friday" value={this.state.operatingTimes[4] ? this.state.operatingTimes[4].Friday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Friday" value={this.state.operatingTimes[4] ? this.state.operatingTimes[4].Friday.Close : null} />
                                         </div>
                                     </div>
 
@@ -416,8 +460,8 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Saturday">Saturday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Saturday" value={this.state.times.Saturday ? this.state.times.Saturday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Saturday" value={this.state.times.Saturday ? this.state.times.Saturday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Saturday" value={this.state.operatingTimes[5] ? this.state.operatingTimes[5].Saturday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Saturday" value={this.state.operatingTimes[5] ? this.state.operatingTimes[5].Saturday.Close : null} />
                                         </div>
                                     </div>
                                     <div className="custom-control custom-checkbox">
@@ -426,20 +470,20 @@ class EditSpot extends Component {
                                             <label className="custom-control-label" for="Sunday">Sunday</label>
                                         </div>
                                         <div>
-                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Sunday" value={this.state.times.Sunday ? this.state.times.Sunday.Open : '--:--'} /> to <nbsp /><nbsp />
-                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Sunday" value={this.state.times.Sunday ? this.state.times.Sunday.Close : '--:--'} />
+                                            <input onChange={this.changeTimesOpen} type="time" name="Open" className="Sunday" value={this.state.operatingTimes[6] ? this.state.operatingTimes[6].Sunday.Open : null} /> to <nbsp /><nbsp />
+                                            <input onChange={this.changeTimesClose} type="time" name="Close" className="Sunday" value={this.state.operatingTimes[6] ? this.state.operatingTimes[6].Sunday.Close : null} />
                                         </div>
                                     </div>
                                 </div>
                                 <div className='Rectangle'>
                                     <div className="form-group">
                                         <label htmlFor="exampleFormControlInput1">City</label>
-                                        <input type="text" className="form-control" id="" name="city" onChange={this.handleChange} required />
+                                        <input type="text" className="form-control" id="" name="city" value={this.state.city} onChange={this.handleChange} required />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="exampleFormControlInput1">Address</label>
-                                    <input type="text" className="form-control Rectangle" id="" name="address" onChange={this.handleChange} required />
+                                    <input type="text" className="form-control Rectangle" id="" name="address" value={this.state.address} onChange={this.handleChange} required />
                                 </div>
 
 
@@ -454,20 +498,20 @@ class EditSpot extends Component {
                             <div className='Rectangle'>
                                 <div className="form-group">
                                     <label htmlFor="exampleFormControlInput1">Latitude</label>
-                                    <input type="text" className="form-control" id="" name="latitude" onChange={this.handleChange} required />
+                                    <input type="text" className="form-control" id="" name="latitude" value={this.state.latitude} onChange={this.handleChange} required />
                                 </div>
                             </div>
 
                             <div className='Rectangle'>
                                 <div className="form-group">
                                     <label htmlFor="exampleFormControlInput1">Longitude</label>
-                                    <input type="text" className="form-control" id="" name="longitude" onChange={this.handleChange} required />
+                                    <input type="text" className="form-control" id="" name="longitude" value={this.state.longitude} onChange={this.handleChange} required />
                                 </div>
                             </div>
                             <label>Maps</label> <br />
                             <Maps lat={lat} long={long} />
                         </div>
-                        <br/>
+                        <br />
                         <div className="form-group">
                             <label>Add Picture</label> <br />
                             <div className=''>
