@@ -98,7 +98,9 @@ class CategoryList extends Component {
                     <td>
                         <div className='row'>
                             <div className='col'>
+                                <Link to ={`/dashboard/category-detail/${id}`}>
                                 <i class="fas fa-list-ul bg-light p-2 rounded-circle border text-secondary m-2"></i>
+                                </Link>
                                 <Link to={{
                                     pathname: `/dashboard/edit-category/${id}/${name}`
                                 }}>
@@ -113,7 +115,7 @@ class CategoryList extends Component {
                                         this.deleteModal()
                                     }}
                                 ></i>
-                                <Link to={{ pathname: '/dashboard/create-spot' }}>
+                                <Link to={{ pathname: `/dashboard/category-bulk-insert/${id}` }}>
                                     <i class="btn btn-outline-light p-1 img-thumbnail border text-secondary m-3"> + Spot </i>
                                 </Link>
                             </div>

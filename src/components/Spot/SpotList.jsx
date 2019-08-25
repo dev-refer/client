@@ -20,22 +20,34 @@ class SpotList extends Component {
         page: "",
         dataCount: 0,
         offset: 0,
-        filter: ''
+        filter: '',
+        categoryId: '',
+        showEdit: true,
+        showDelete: true,
+        showDetail: true,
+        showAddSpot: true,
+        showSearch: true,
+        showTitle: true,
     }
 
     componentDidMount() {
-        this.getSpotList()
+        this.setState({
+            ...this.props
+        }, () => {
+            this.getSpotList({})
+        })
     }
 
-    getSpotList = (e) => {
-        const page = e ? e : 1
+    getSpotList = (data) => {
+        const page = data.page ? data.page : 1
+        const { categoryId } = this.state
         this.setState({ loading: true })
         axios({
             method: 'GET',
             headers: {
                 token: localStorage.getItem('token')
             },
-            url: `/v1/spots?page=${page}`
+            url: `/v1/spots?page=${page}&categoryId=${categoryId}`
         })
             .then((res) => {
                 this.setState({
@@ -55,7 +67,7 @@ class SpotList extends Component {
             })
     }
 
-    listSpot = () => {
+    listSpot = (edit, detail, showDelete) => {
         var list = this.state.getDataSpot.map((item, i) => {
             var { name, city, number, id } = item
             return (
@@ -72,19 +84,19 @@ class SpotList extends Component {
                     <td>
                         <div className='row'>
                             <div className='col'>
-                                <Link to={{
+                                {detail ?<Link to={{
                                     pathname: `/dashboard/view-spot/${id}`,
                                     state:{ id: id, data: this.state.getDataSpot }
                                 }}>
                                     <i className="far fa-eye bg-light p-2 rounded-circle border text-secondary m-2"></i>
-                                </Link>
-                                <Link to={{
+                                </Link> : null }
+                               {edit ? <Link to={{
                                     pathname: `/dashboard/edit-spot/${id}`,
                                     state:{ id: id, data: this.state.getDataSpot }
                                 }}>
                                     <i className="fas fa-pencil-alt bg-light p-2 rounded-circle border text-warning m-2"></i>
-                                </Link>
-                                <i
+                                </Link> : null}
+                                {showDelete ? <i
                                     className="fas fa-trash-alt bg-light p-2 rounded-circle border text-danger m-2" onClick={() => {
 
                                         this.setState({
@@ -93,7 +105,7 @@ class SpotList extends Component {
                                         });
                                         this.deleteModal()
                                     }}
-                                ></i>
+                                ></i> : null}
                             </div>
                         </div>
                     </td>
@@ -162,28 +174,31 @@ class SpotList extends Component {
 
     handleClick(e, offset) {
         this.setState({ offset });
-        this.getSpotList((offset + 10) / 10)
+        let page = (offset + 10) / 10
+        this.getSpotList({
+            page
+        })
     }
 
     render() {
-        const { dataCount } = this.state
+        const { dataCount, showAddSpot, showDelete, showDetail, showEdit, showSearch, showTitle } = this.state
         return (
             <div>
-                <h2>Spot</h2>
+                {showTitle ? < h2 > Spot</h2> : null}
                 <br />
                 <div className="container-fluid p-0">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <form className="form-inline" onSubmit={this.handleSubmitFil}>
+                    <div className="row">                            
+                        {showSearch ? <div className="col-md-6">
+                        <form className="form-inline" onSubmit={this.handleSubmitFil}>
                                 <input type="text" className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Search" />
                                 <button type="submit" className="btn btn-primary mb-2">Search</button>
 
                             </form>
-                        </div>
+                        </div> : null}
                         <div className="col-md text-right">
-                            <Link to='/dashboard/create-spot'>
+                            {showAddSpot ? <Link to='/dashboard/create-spot'>
                                 <button type="button" className="btn btn-secondary mb-2">+ Add Spot</button>
-                            </Link>
+                            </Link> : null}
                         </div>
                     </div>
 
@@ -201,7 +216,7 @@ class SpotList extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.loading ? <Loading /> : this.listSpot()
+                                this.state.loading ? <Loading /> : this.listSpot(showEdit, showDetail, showDelete)
                             }
                         </tbody>
                     </table>
