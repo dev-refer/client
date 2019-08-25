@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-// import Pagination from 'react-js-pagination'
 import Pagination from "material-ui-flat-pagination";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -20,7 +19,8 @@ class SpotList extends Component {
         deleteModal: false,
         page: "",
         dataCount: 0,
-        offset: 0
+        offset: 0,
+        filter: ''
     }
 
     componentDidMount() {
@@ -57,7 +57,7 @@ class SpotList extends Component {
 
     listSpot = () => {
         var list = this.state.getDataSpot.map((item, i) => {
-            var { name, city, number } = item
+            var { name, city, number, id } = item
             return (
                 <tr key={i}>
                     <th scope="row">
@@ -72,23 +72,26 @@ class SpotList extends Component {
                     <td>
                         <div className='row'>
                             <div className='col'>
-
                                 <Link to={{
-                                    pathname: `/dashboard/view-spot`
+                                    pathname: `/dashboard/view-spot/${id}`,
+                                    state:{ id: id, data: this.state.getDataSpot }
                                 }}>
                                     <i className="far fa-eye bg-light p-2 rounded-circle border text-secondary m-2"></i>
                                 </Link>
                                 <Link to={{
-                                    pathname: `/dashboard/edit-spot`
+                                    pathname: `/dashboard/edit-spot/${id}`,
+                                    state:{ id: id, data: this.state.getDataSpot }
                                 }}>
                                     <i className="fas fa-pencil-alt bg-light p-2 rounded-circle border text-warning m-2"></i>
                                 </Link>
                                 <i
                                     className="fas fa-trash-alt bg-light p-2 rounded-circle border text-danger m-2" onClick={() => {
+
                                         this.setState({
                                             verifName: item.name,
-                                            verifId: item.id,
-                                        })
+                                            verifId: item.id,                 
+                                        });
+                                        this.deleteModal()
                                     }}
                                 ></i>
                             </div>
@@ -112,13 +115,49 @@ class SpotList extends Component {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
+                this.handleDeleteSpot()
+            }else if(result.dismiss == swal.DismissReason.cancel){
                 swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
-            }
+                  'Cancelled',
+                )}
         })
+    }
+
+    handleDeleteSpot = () => {
+        axios({
+            method: 'DELETE',
+            headers: {
+                token: localStorage.getItem('token')
+            },
+            url: `/v1/spots/${this.state.verifId}`
+        })
+        .then((res) => {
+            console.log(res);       
+            swal.fire({
+                type: 'success',
+                title: 'Delete spot succeed',
+                timer: 2500     
+            })
+            setTimeout(() => window.location.reload(), 2500)
+        })
+        .catch((err) => {
+            console.log(err.response);
+            swal.fire({
+                type: 'error',
+                title: err.response,
+                timer: 2500     
+            })           
+        })
+    }
+
+    handleFilter = (e)=>{
+        this.setState({
+            filter : e.target.value
+        })
+        if (e.target.value.length === 0) {
+            // console.log('nulll');
+            this.getSpotList()
+        }
     }
 
     handleClick(e, offset) {
@@ -135,7 +174,7 @@ class SpotList extends Component {
                 <div className="container-fluid p-0">
                     <div className="row">
                         <div className="col-md-6">
-                            <form className="form-inline">
+                            <form className="form-inline" onSubmit={this.handleSubmitFil}>
                                 <input type="text" className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Search" />
                                 <button type="submit" className="btn btn-primary mb-2">Search</button>
 
