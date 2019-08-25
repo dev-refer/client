@@ -24,6 +24,8 @@ import SpotList from '../../components/Spot/SpotList';
 import CreateSpot from '../../components/Spot/CreateSpot';
 import EditSpot from '../../components/Spot/EditSpot';
 import ViewSpot from '../../components/Spot/ViewSpotDetail';
+import DetailCategory from '../../components/Category/categoryDetail/Detail';
+import BulkInsertCategory from '../../components/Category/BulkInsertSpot';
 
 
 const drawerWidth = 240;
@@ -162,12 +164,14 @@ export default function Dashboard() {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Route path='/dashboard/category' component={CategoryList} />
+                    <Route path='/dashboard/category-detail/:id' component={DetailCategory} />
+                    <Route path='/dashboard/category-bulk-insert/:id' component={BulkInsertCategory} />
                     <Route path='/dashboard/create-category' component={CreatCategory} />
                     <Route path='/dashboard/edit-category/:id/:name' component={EditCategory}/>
                     <Route path='/dashboard/spot' component={SpotList} />
                     <Route path='/dashboard/create-spot' component={CreateSpot} />
-                    <Route path='/dashboard/edit-spot/:id/:name' component={EditSpot} />
-                    <Route path='/dashboard/view-spot/:id/:name' component={ViewSpot} />
+                    <Route path='/dashboard/edit-spot/:name' component={EditSpot} />
+                    <Route path='/dashboard/view-spot/:id' component={ViewSpot} />
 
                 </Container>
             </main>
