@@ -11,7 +11,7 @@ import { PrivateRoute } from './privateRoute';
 import { login } from './redux/actions/auth.action.js';
 
 import routes from './routes';
-import Login from './pages/Login/Login.jsx';
+import Login from './pages/login/Login.jsx';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Content from './components/Content/Content';
