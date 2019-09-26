@@ -26,6 +26,7 @@ import EditSpot from '../../components/Spot/EditSpot';
 import ViewSpot from '../../components/Spot/ViewSpotDetail';
 import DetailCategory from '../../components/Category/categoryDetail/Detail';
 import BulkInsertCategory from '../../components/Category/BulkInsertSpot';
+import Test from '../test/test'
 
 
 const drawerWidth = 240;
@@ -50,6 +51,8 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: 'white',
+        color: 'black'
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -66,7 +69,7 @@ const useStyles = makeStyles(theme => ({
         display: 'none',
     },
     title: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     drawerPaper: {
         position: 'relative',
@@ -107,6 +110,9 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
+    theTest: {
+        borderColor: 'blue'
+    }
 }));
 
 export default function Dashboard() {
@@ -133,7 +139,7 @@ export default function Dashboard() {
                     >
                     <MenuIcon />
                     </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                    <Typography component="h1" variant="h6" noWrap className={classes.title}>
                         Refer Admin
                     </Typography>
                     <IconButton color="inherit">
@@ -172,7 +178,7 @@ export default function Dashboard() {
                     <Route path='/dashboard/create-spot' component={CreateSpot} />
                     <Route path='/dashboard/edit-spot/:name' component={EditSpot} />
                     <Route path='/dashboard/view-spot/:id' component={ViewSpot} />
-
+                    <Route path='/dashboard/test' component={Test} />
                 </Container>
             </main>
         </div>

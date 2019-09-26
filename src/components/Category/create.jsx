@@ -46,7 +46,7 @@ export default function SignUp() {
     const [name, setName] = useState('')
     const [icon, setIcon] = useState('')
     const [loading, setLoading] = useState(false)
-
+   
     const changeIcon = (e) => {
         setLoading(true)
         let data = new FormData()
@@ -113,9 +113,10 @@ export default function SignUp() {
             
             <CssBaseline />
             <div className={classes.paper}>
-                {/* <Typography component="h1" variant="h5">
+           
+                <Typography component="h1" variant="h5">
                     Create Category
-                </Typography> */}
+                </Typography>
                 
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>

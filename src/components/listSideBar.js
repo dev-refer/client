@@ -25,7 +25,15 @@ export const mainListItems = (
                 </ListItemIcon>
                 <ListItemText primary="Spot" />
             </ListItem>
-        </Link>  
+        </Link>
+        <Link style={{ color: 'inherit' }} to='/dashboard/test'>
+            <ListItem button>
+                <ListItemIcon>
+                    <SpotIcon />
+                </ListItemIcon>
+                <ListItemText primary="Test" />
+            </ListItem>
+        </Link>    
     </div>
 );
 

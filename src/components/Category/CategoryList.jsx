@@ -72,7 +72,9 @@ class CategoryList extends Component {
                 // })
             })
             .catch(err => {
-                // setLoading(false)
+                this.setState({
+                    loading : false
+                })
                 swal.fire({
                     type: 'error',
                     title: 'error get spot data',
