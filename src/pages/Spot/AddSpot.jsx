@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
-class Dashboard extends Component {
+class AddSpot extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
         return ( <div>
-            <h1>
-                DASHBOARD
-            </h1>
+            ADD SPOT
         </div> );
     }
 }
  
-export default Dashboard;
+export default AddSpot;

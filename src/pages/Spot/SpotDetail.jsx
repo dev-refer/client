@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 
-class Dashboard extends Component {
+
+class SpotDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
         return ( <div>
-            <h1>
-                DASHBOARD
-            </h1>
+            SPOT DETAIL
         </div> );
     }
 }
  
-export default Dashboard;
+export default SpotDetail;

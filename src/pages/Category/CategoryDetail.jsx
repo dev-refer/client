@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
-class Dashboard extends Component {
+class CategoryDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
         return ( <div>
-            <h1>
-                DASHBOARD
-            </h1>
+            CATEGORY DETAIL
         </div> );
     }
 }
  
-export default Dashboard;
+export default CategoryDetail;

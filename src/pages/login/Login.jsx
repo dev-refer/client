@@ -13,6 +13,9 @@ import axios from '../../libs/axios';
 import swal from 'sweetalert2';
 import Loading from '../../components/Loading';
 
+import { connect } from 'react-redux';
+import { login } from '../../redux/actions/auth.action';
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -49,10 +52,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignIn({ history }) {
+function SignIn({ history, postLogin }) {
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            history.replace('/dashboard')
+            history.replace('/')
         }
     })
     const classes = useStyles();
@@ -69,33 +72,57 @@ export default function SignIn({ history }) {
             })
         }
         setLoading(true)
-        const result = await axios({
-            method: 'POST',
-            url: '/v1/users/admin/login',
-            data: {
-                email,
-                password
+        postLogin(email, password)
+        try {
+            const result = await axios({
+                method: 'POST',
+                url: '/v1/users/admin/login',
+                data: {
+                    email,
+                    password
+                }
+            })
+            if (!result.token) {
+                postLogin({
+                    token: '',
+                    data: result.data,
+                    isLogin: false,
+                    error: false
+                })
+                setLoading(false)
+                return swal.fire({
+                    title: "Authentication fail",
+                    text: "wrong username/password",
+                    type: 'error',
+                })
             }
-        })
-        if (!result.token) {
+            localStorage.setItem('token', result.token)
+            localStorage.setItem('userName', result.data.name)
+            postLogin({
+                token: result.token,
+                data: result.data,
+                isLogin: true,
+                error: false
+            })
             setLoading(false)
-            return swal.fire({
-                title: "Authentication fail",
-                text: "wrong username/password",
-                type: 'error',
+            swal.fire({
+                type: 'success',
+                title: `Success Login, welcome ${result.data.name}`,
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(() => {
+                history.replace('/');
+            }, 1600);
+        } catch (error) {
+            postLogin({
+                token: null,
+                data: null,
+                isLogin: false,
+                error: true
             })
         }
-        localStorage.setItem('token', result.token)
-        setLoading(false)
-        swal.fire({
-            type: 'success',
-            title: `Success Login, welcome ${result.data.name}`,
-            showConfirmButton: false,
-            timer: 1500
-        })
-        setTimeout(() => {
-            history.replace('/dashboard');
-        }, 1600);
+
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -160,3 +187,19 @@ export default function SignIn({ history }) {
         </Container>
     );
 }
+
+const mapStateToProps = state => ({
+    isLogin: state.user
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        postLogin: (data) => dispatch(login(data))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignIn);
+
