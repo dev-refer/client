@@ -42,10 +42,10 @@ class App extends Component {
     )
 
     return (
-        <Switch>
-          <Route exact path='/login' component={Login} />
-          {mainLayout}
-        </Switch>
+      <Switch>
+        <Route exact path='/login' component={Login} />
+        {mainLayout}
+      </Switch>
     )
   }
 }

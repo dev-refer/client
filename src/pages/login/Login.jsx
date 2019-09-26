@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -131,7 +131,7 @@ function SignIn({ history, postLogin }) {
             }
             <CssBaseline />
             <div className={classes.paper}>
-                <Avatar alt="Remy Sharp" src="https://storage.cloud.google.com/asset_refer_production/refer_logo.jpeg" className={classes.avatar} />
+                {/* <Avatar alt="Remy Sharp" src="https://storage.cloud.google.com/asset_refer_production/refer_logo.jpeg" className={classes.avatar} /> */}
                 <Typography component="h1" variant="h5">
                     Sign in
         </Typography>
