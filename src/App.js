@@ -8,8 +8,6 @@ import {
 } from 'react-router-dom'
 import { PrivateRoute } from './privateRoute';
 
-import { login } from './redux/actions/auth.action.js';
-
 import routes from './routes';
 import Login from './pages/Login/Login';
 import Header from './components/Header/Header';
@@ -56,7 +54,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: (data) => dispatch(login('hafrizresa@gmail.com', '123')),
+
   };
 };
 
