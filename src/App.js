@@ -9,7 +9,7 @@ import {
 import { PrivateRoute } from './privateRoute';
 
 import routes from './routes';
-import Login from './pages/Login/Login';
+import Login from './pages/Login';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Content from './components/Content/Content';

@@ -6,7 +6,7 @@ const routes = [
         icon: 'dashboard',
         title: 'Dashboard',
         path: '/',
-        component: loadable(() => import('./pages/Dashboard/Dashboard'))
+        component: loadable(() => import('./pages/Dashboard'))
     },
     {
         id: 'spot',
