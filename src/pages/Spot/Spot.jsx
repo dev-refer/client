@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+
 import { fade, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import SpotTable from '../../components/table/SpotTable.jsx';
 import AddButton from '../../components/button/addSpotButton.jsx';
-import { Container } from '@material-ui/core';
+
 import Grid from '@material-ui/core/Grid';
-import Input from '@material-ui/core/Input';
+
 
 
 
@@ -55,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function Spot() {
+export default function Spot(props) {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(false)
@@ -64,6 +60,17 @@ export default function Spot() {
         async function getSpotData(){}
     })
 
+    
+    console.log(props);
+
+
+    var a = 'tes'
+
+    const AddSpot = () => {
+  
+        props.b.push('/add-spot');
+      }
+    
 
 
     return (
@@ -81,8 +88,8 @@ export default function Spot() {
                         />
                     </div>
                 </Grid>
-                <Grid item xs={2} className={classes.button}>
-                    <AddButton />
+                <Grid item xs={2} className={classes.button}>               
+                    <AddButton x={a} b={props.history}  label="Add Spot +"/>
                 </Grid>
             </Grid>
             <SpotTable />

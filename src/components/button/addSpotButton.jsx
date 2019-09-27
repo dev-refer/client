@@ -16,12 +16,20 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-export default function AddSpotButton() {
+export default function AddSpotButton(props) {
   const classes = useStyles();
+
+  console.log(props, 'ini props');
+  
+
+  const AddSpot = () => {
+  
+    props.b.push('/add-spot');
+  }
 
   return (
     <div>
-       <Button variant="contained" color="primary" className={classes.test}>Add Spot +</Button>
+       <Button onClick={AddSpot} variant="contained" color="primary" className={classes.test}>{props.label}</Button>
     </div>
   );
 }
