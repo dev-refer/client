@@ -30,7 +30,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CategoryCard(props) {
-    const { categoryData, deleteCategory, openEditModal } = props
+    const {
+        categoryData,
+        deleteCategory,
+        openEditModal,
+        history,
+        openBulkModal
+    } = props
     const classes = useStyles();
 
     return (
@@ -59,7 +65,7 @@ export default function CategoryCard(props) {
 
                                 </Grid>
                                 <Grid item>
-                                    <Fab style={{ backgroundColor: '#707070', color: '#f2efef', maxHeight: '42px' }} variant="extended" aria-label="delete">
+                                    <Fab onClick={()=>{openBulkModal(categoryData.id, categoryData.name)}} style={{ backgroundColor: '#707070', color: '#f2efef', maxHeight: '42px' }} variant="extended" aria-label="delete">
                                         Add Spot +
                                    </Fab>
                                 </Grid>

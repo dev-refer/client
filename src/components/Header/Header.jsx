@@ -4,7 +4,6 @@ import {
     Toolbar,
     IconButton,
     Typography,
-    Badge,
     makeStyles,
     CssBaseline
 } from '@material-ui/core';
@@ -21,6 +20,8 @@ import clsx from 'clsx';
 
 import { connect } from 'react-redux';
 import { setDrawerOptions } from '../../redux/actions/currentpage.action';
+import { logout } from '../../redux/actions/auth.action'
+import DropDownBtn from '../button/headerBtnDropDown';
 
 
 const drawerWidth = 240;
@@ -72,11 +73,11 @@ const useStyles = makeStyles(theme => ({
     },
     textStyle: {
         marginRight: 15,
-        marginLeft:2
+        marginLeft: 2
     }
 }))
 
-function Header({ currentPage, handleDrawer, router }) {
+function Header({ currentPage, handleDrawer, router, logout }) {
     const classes = useStyles();
     const open = currentPage.drawerOptions
     const handleDrawerOpen = () => {
@@ -101,20 +102,18 @@ function Header({ currentPage, handleDrawer, router }) {
                     </Typography>
                     <IconButton className={classes.iconButtonStyle} color="inherit">
                         {/* <Badge badgeContent={4} color="secondary"> */}
-                            <Mail />
+                        <Mail />
                         {/* </Badge> */}
                     </IconButton>
                     <IconButton className={classes.iconButtonStyle} color="inherit">
                         {/* <Badge badgeContent={4} color="secondary"> */}
-                            <NotificationsIcon />
+                        <NotificationsIcon />
                         {/* </Badge> */}
                     </IconButton>
                     <Typography className={classes.textStyle} component="h1" variant="h6" color="inherit" noWrap>
-                       Hello {localStorage.getItem('userName')}
+                        Hello {localStorage.getItem('userName')}
                     </Typography>
-                    <IconButton color="inherit">
-                        <ArrowDropDown />
-                    </IconButton>
+                    <DropDownBtn logout={logout} router={router} />
                 </Toolbar>
             </AppBar>
         </div>
@@ -129,7 +128,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleDrawer: (options) => dispatch(setDrawerOptions(options))
+        handleDrawer: (options) => dispatch(setDrawerOptions(options)),
+        logout: () => dispatch(logout())
     };
 };
 

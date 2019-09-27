@@ -19,11 +19,12 @@ import { fetchCategory } from '../../redux/actions/category.action';
 
 import Loading from '../../components/Loading';
 import Modal from '../../components/Modal/CategoryModal';
+import CategoryBulk from '../../components/Modal/BulkInsertCategory'
 
 
 
 function Category(props) {
-
+    const { history } = props
     useEffect(() => {
         props.getCategory()
     }, [])
@@ -37,6 +38,11 @@ function Category(props) {
     const [categoryIcon, setCategoryIcon] = useState('');
     const [categoryDesc, setCategoryDesc] = useState('');
     const [categoryId, setCategoryId] = useState('')
+
+    const [categoryIdBulk, setCategoryIdBulk] = useState('')
+
+
+    const [bulkModal, setBulkModal] = useState(false)
 
     const deleteCategory = async (id) => {
         const confirm = await swal.fire({
@@ -82,6 +88,12 @@ function Category(props) {
         setModalState(true)
     }
 
+    const openBulkModal = (id, name) => {
+        setCategoryId(id)
+        setBulkModal(true)
+        setCategoryName(name)
+    }
+
     const openEditModal = (name, icon, desc, id) => {
         setCategoryIcon(icon)
         setCategoryName(name)
@@ -94,19 +106,35 @@ function Category(props) {
 
     const closeModal = () => {
         setModalState(false);
+        setBulkModal(false)
         setCategoryIcon('')
         setCategoryName('')
         setCategoryDesc('')
+        setCategoryId('')
     }
 
 
     const categoryList = props.categories.categoryList.map((val, index) => {
         return <Grid key={index} item xs={4} md={4} sm={4} lg={4}>
-            <CardCategory openEditModal={openEditModal} deleteCategory={deleteCategory} categoryData={val} key={index} />
+            <CardCategory
+                history={history}
+                openEditModal={openEditModal}
+                deleteCategory={deleteCategory}
+                categoryData={val}
+                key={index}
+                openBulkModal={openBulkModal}
+            />
         </Grid>
     })
 
     return <Grid container>
+        <CategoryBulk
+            categoryName={categoryName}
+            open={bulkModal}
+            closeModal={closeModal}
+            scroll='paper'
+            categoryId={categoryId}
+        />
         <Modal
             name={categoryName}
             icon={categoryIcon}
