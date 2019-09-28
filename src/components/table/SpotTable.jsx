@@ -7,6 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Container } from '@material-ui/core';
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -49,12 +51,30 @@ const useStyles = makeStyles(theme => ({
     },
     tHead: {
         backgroundColor: '#484848'
+    },
+    editIcon: {
+        color: '#fd6a02',
+        cursor: 'pointer'
+    },
+    deleteIcon: {
+        color: 'grey'
     }
 }));
 
-export default function CustomizedTables() {
+export default function CustomizedTables(props) {
     const classes = useStyles();
 
+    const editSpot = (item) => {
+        props.edit.push(`/edit-spot/${item.id}`)
+        props.test(item)
+        console.log(item);
+    }
+
+    const pushEdit = () => {
+
+    }
+
+    console.log(props, 'props di table');
     return (
         <Container maxWidth="xl">
             <Paper className={classes.root}>
@@ -62,7 +82,7 @@ export default function CustomizedTables() {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell width="5%">No.</StyledTableCell>
-                            <StyledTableCell width="20%"align="left">Name</StyledTableCell>
+                            <StyledTableCell width="20%" align="left">Name</StyledTableCell>
                             <StyledTableCell width="15%" align="left">Country</StyledTableCell>
                             <StyledTableCell width="15%" align="left">City</StyledTableCell>
                             <StyledTableCell align="left">Category</StyledTableCell>
@@ -70,16 +90,22 @@ export default function CustomizedTables() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map(row => (
-                            <StyledTableRow key={row.name}>
-                                <StyledTableCell width="5%"component="th" scope="row">
-                                    {row.name}
+                        {props.data.map((item, i) => (
+                            <StyledTableRow >
+                                <StyledTableCell width="5%" component="th" scope="row" key={i}>{i + 1}</StyledTableCell>
+                                <StyledTableCell align="left">{item.name}</StyledTableCell>
+                                <StyledTableCell align="left">{item.country}</StyledTableCell>
+                                <StyledTableCell align="left">{item.city}</StyledTableCell>
+                                <StyledTableCell>
+                                    {item.categoryNames.map(val => {
+                                        return val.name + ', '
+                                    })}
                                 </StyledTableCell>
-                                <StyledTableCell align="left">{row.calories}</StyledTableCell>
-                                <StyledTableCell width="10%" align="left">{row.fat}</StyledTableCell>
-                                <StyledTableCell align="left">{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="left">{row.protein}</StyledTableCell>
-                                <StyledTableCell align="left">Action</StyledTableCell>
+                               <StyledTableCell>
+                                   <CreateIcon className={classes.editIcon} onClick={() => editSpot(item)} x={props.item} />
+                                   <DeleteIcon className={classes.deleteIcon}/>
+                               </StyledTableCell>
+
                             </StyledTableRow>
                         ))}
                     </TableBody>

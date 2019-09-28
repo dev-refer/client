@@ -11,6 +11,9 @@ import SaveButton from '../../components/button/SaveButton.jsx';
 import DiscardButton from '../../components/button/DiscardButton.jsx';
 import Typography from '@material-ui/core/Typography';
 
+import { setSpotDetail } from '../../redux/actions/spotDetail.action';
+import { connect } from 'react-redux';
+
 const useStyles = makeStyles(theme => ({
     root: {
         // backgroundColor: '#f2efef'
@@ -36,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function AddSpot() {
+function EditSpot(props) {
     const classes = useStyles();
     const [values, setValues] = React.useState([]);
 
@@ -46,6 +49,9 @@ export default function AddSpot() {
 
     };
 
+
+    console.log(props, 'ini props di editspot');
+    
 
 
     return (
@@ -163,10 +169,23 @@ export default function AddSpot() {
                 &nbsp;
                 &nbsp;
                 <SaveButton />
-
             </Grid>
-
-
         </div>
     )
 }
+
+const mapStateToProps = state => ({
+    spotDetail: state.spotData
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        // getSpot: () => dispatch(fetchSpot({})),
+        getSpotDetail: (data) => dispatch(setSpotDetail(data))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditSpot);

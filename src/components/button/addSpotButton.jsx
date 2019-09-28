@@ -19,17 +19,15 @@ const useStyles = makeStyles(theme => ({
 export default function AddSpotButton(props) {
   const classes = useStyles();
 
-  console.log(props, 'ini props');
-  
 
-  const AddSpot = () => {
   
-    props.b.push('/add-spot');
-  }
+  // const AddSpot = () => {
+  //   props.b.push('/add-spot');
+  // }
 
   return (
     <div>
-       <Button onClick={AddSpot} variant="contained" color="primary" className={classes.test}>{props.label}</Button>
+       <Button onClick={props.x} variant="contained" color="primary" className={classes.test}>{props.label}</Button>
     </div>
   );
 }
