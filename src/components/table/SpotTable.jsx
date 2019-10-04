@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,17 +28,6 @@ const StyledTableRow = withStyles(theme => ({
     },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('1', 'Warung Fotkop', 'Indonesia', 'Jakarta', 'Food & Drink, Coffeeshop'),
-    createData('2', 'Warung Fotkop', 'Indonesia', 'Jakarta', 'Food & Drink, Coffeeshop'),
-    createData('3', 'Warung Fotkop', 'Indonesia', 'Jakarta', 'Food & Drink, Coffeeshop'),
-    createData('4', 'Warung Fotkop', 'Indonesia', 'Jakarta', 'Food & Drink, Coffeeshop'),
-    createData('5', 'Warung Fotkop', 'Indonesia', 'Jakarta', 'Food & Drink, Coffeeshop'),
-];
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -63,18 +52,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function CustomizedTables(props) {
     const classes = useStyles();
+    const { deleteSpot } = props
+    // const [loading, setLoading] = useState(false)
 
     const editSpot = (item) => {
+        props.spotDetail(item)
         props.edit.push(`/edit-spot/${item.id}`)
-        props.test(item)
-        console.log(item);
     }
 
-    const pushEdit = () => {
+    // const pushEdit = () => {
 
-    }
+    // }    
 
-    console.log(props, 'props di table');
+    
+
     return (
         <Container maxWidth="xl">
             <Paper className={classes.root}>
@@ -103,7 +94,7 @@ export default function CustomizedTables(props) {
                                 </StyledTableCell>
                                <StyledTableCell>
                                    <CreateIcon className={classes.editIcon} onClick={() => editSpot(item)} x={props.item} />
-                                   <DeleteIcon className={classes.deleteIcon}/>
+                                   <DeleteIcon className={classes.deleteIcon} onClick={() => { deleteSpot()}}/>
                                </StyledTableCell>
 
                             </StyledTableRow>

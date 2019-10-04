@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-
 import TextField from '@material-ui/core/TextField';
 import SpotTable from '../../components/Table/SpotTable.jsx';
 import AddButton from '../../components/button/addSpotButton.jsx';
@@ -62,9 +60,7 @@ const useStyles = makeStyles(theme => ({
 
 function Spot(props) {
     const classes = useStyles();
-    const { name } = props
 
-    const [spotName, setSpotName] = useState(name || '')
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -77,13 +73,46 @@ function Spot(props) {
         props.history.push('/add-spot');
     }
 
+    const deleteSpot = async (id) => {
+        const confirm = await swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        })
+        if (confirm.value) {
+            const options = {
+                url: '/v1/spots/' + id,
+                headers: {
+                    token: localStorage.getItem('token')
+                },
+                method: 'DELETE'
+            }
+            try {
+                setLoading(true)
+                await axios(options)
+                await props.getCategory()
+                setLoading(false)
+                swal.fire(
+                    'Delete',
+                    'Success Delete Spot',
+                    'success'
+                )
+            } catch (error) {
+                setLoading(false)
+                swal.fire(
+                    'Error',
+                    'error while deleting spot, please try again later',
+                    'error'
+                )
+            }
+        }
+    }
 
-    console.log(props, 'props di spot');
-  
     
-    
-
-    // console.log(props.getSpot(), 'ini props');
 
     return (
         <div className={classes.root}>
@@ -107,7 +136,7 @@ function Spot(props) {
             {
                 props.spot.loading
                     ? <Loading />
-                    : <SpotTable data={props.spot.spotList} edit={props.history} test={props.getSpotDetail} />
+                    : <SpotTable data={props.spot.spotList} edit={props.history} spotDetail={props.getSpotDetail} deleteSpot={deleteSpot}/>
             }
 
         </div>
@@ -115,8 +144,7 @@ function Spot(props) {
 }
 
 const mapStateToProps = state => ({
-    spot: state.spot,
-    spotDetail: state
+    spot: state.spot
 });
 
 const mapDispatchToProps = dispatch => {

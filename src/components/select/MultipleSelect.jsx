@@ -1,14 +1,14 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, { useState,useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import { connect } from 'react-redux';
+import { fetchCategory } from '../../redux/actions/category.action';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,55 +43,51 @@ const MenuProps = {
     },
   };
 
-  const names = [
-    'Food & Drink',
-    'Sightsee',
-    'Coffeeshop',
-    'Barbershop',
-    'Lounge & Club',
-    'Shopping',
-    'Beauty',
-    'Live Music',
-    'Festival',
-    'Book Store',
-  ];
-
-  function getStyles(name, personName, theme) {
+  function getStyles(item, categoryName, theme) {
     return {
       fontWeight:
-        personName.indexOf(name) === -1
+        categoryName.indexOf(item) === -1
           ? theme.typography.fontWeightRegular
           : theme.typography.fontWeightMedium,
     };
   }
 
-export default function MultipleSelect() {
+function MultipleSelect(props) {
 
-    const classes = useStyles();
-    const theme = useTheme();
-    const [personName, setPersonName] = React.useState([]);
   
-    function handleChange(event) {
-      setPersonName(event.target.value);
-    }
+  // const { categoryList } = props
   
-    function handleChangeMultiple(event) {
-      const { options } = event.target;
-      const value = [];
-      for (let i = 0, l = options.length; i < l; i += 1) {
-        if (options[i].selected) {
-          value.push(options[i].value);
-        }
-      }
-      setPersonName(value);
-    }
+  const classes = useStyles();
+  const theme = useTheme();
+  const [categoryName, setCategoryName] = useState([]);
+
+  useEffect(() => {
+      props.getCategory()
+  }, [])
+  
+  useEffect(() => {
+    sendSelectedCategory()
+  }, [categoryName])
+  
+  
+  const sendSelectedCategory = () => {
+    // console.log('masuk');
+    props.categoryCallBack(categoryName)
+  }
+
+  function handleChange(event) {
+    setCategoryName(event.target.value);
+    // sendSelectedCategory()
+    
+  }
+
 
     return (
         <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-chip">Category</InputLabel>
             <Select
                 multiple
-                value={personName}
+                value={categoryName}
                 onChange={handleChange}
                 input={<Input id="select-multiple-chip" />}
                 renderValue={selected => (
@@ -103,12 +99,30 @@ export default function MultipleSelect() {
                 )}
                 MenuProps={MenuProps}
             >
-                {names.map(name => (
-                    <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                        {name}
-                    </MenuItem>
-                ))}
+                {props.categories.categoryList?
+                  props.categories.categoryList.map((item, i) => (
+                  // console.log(item),
+                  
+                  <MenuItem key={i} value={item.name} style={getStyles(item, categoryName, theme)}>
+                        {item.name}
+                  </MenuItem>
+                  
+                )): null}
             </Select>
         </FormControl>
     )
 }
+const mapStateToProps = state => ({
+  categories: state.category
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+      getCategory: () => dispatch(fetchCategory({}))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MultipleSelect);

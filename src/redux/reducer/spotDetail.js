@@ -1,5 +1,6 @@
 const initialState = {
-    spotDetail: {}
+    spotDetail: {},
+    error: false
 }
 
 export const SET_SPOT_DATA = "SET_SPOT_DATA"
@@ -8,11 +9,13 @@ const spotData = ( state = initialState, action ) => {
     switch (action.type) {
         case SET_SPOT_DATA:
             const {
-                data
+                data,
+                error
             } = action
             return {
                 ...state,
-                data
+                spotDetail: data,
+                error
             }
         default:
             return state 
