@@ -61,24 +61,22 @@ function AddSpot(props) {
     const [spotLongitude, setSpotLongitude] = useState('')
     const [spotDescription, setSpotDescription] = useState('')
     const [spotPhoto, setSpotPhoto] = useState([])
-    // const [spotPhoto1, setSpotPhoto1] = useState(photo1 || '')
-    // const [spotPhoto2, setSpotPhoto2] = useState(photo2 || '')
+    const [openHours, setOpenHours] = useState([])
     const [category, setCategory] = useState([])
-
     const [loading, setLoading] = useState(false)
 
-    // const handleChange = name => e => {
-    //     setValues({ ...values, [name]: e.target.value });
-    //     // console.log(e.target.value);
-
-    // };
-
+    console.log(category);
 
 
     const callBackFunction = (selectedCategoryData) => {
         setCategory(selectedCategoryData)
     }
-    // console.log(values, 'state');
+
+    const callOpenHours = (selectedOpenHours) => {
+        setOpenHours(selectedOpenHours)
+    }
+    
+
 
 
     const changePhoto = async (e) => {
@@ -114,12 +112,76 @@ function AddSpot(props) {
         }
     }
 
-    // console.log(spotPhoto, 'state nya spotPhoto');
-    // console.log(category, 'state category');
-    // useEffect((e) => {
-    //     console.log(e.target.value);
+    const validateTimes = () => {
+        let arr = Object.entries(openHours)
+        let data = []
+        if (arr.length === 0) {
+            return false
+        }
+        for (let i = 0; i < arr.length; i++) {
+            if (typeof arr[i][1] !== 'string') {
+                if (!arr[i][1].Open || !arr[i][1].Close) {
+                    return false
+                }
+                data.push(arr[i])
+            }
+        }
+        return data
+    }
 
-    // })
+    const sendNewSpot = async () => {
+        const operatingTimes = validateTimes();
+        if (operatingTimes) {
+
+            var categoryId = [];
+            category.map(cat => {
+                let c = props.categories.categoryList.find(item => item.name == cat)
+                categoryId.push(c.id);
+            })
+            console.log(categoryId)
+
+            try {
+                setLoading(true)
+                await axios({
+                    method: 'POST',
+                    url: '/v1/spots',
+                    data: {
+                        name: spotName,
+                        description: spotDescription,
+                        phone: spotPhone,
+                        latitude: spotLatitude,
+                        longitude: spotLongitude,
+                        city: spotCity,
+                        address: spotAddress,
+                        operatingTimes: operatingTimes,
+                        categoryId: categoryId,
+                        image: spotPhoto
+                    },
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
+                })
+                setLoading(false)
+                swal.fire({
+                    title: 'success',
+                    text: 'New spot successfully added',
+                    type: 'success'
+                })
+            } catch (error) {
+                console.log(error);
+                setLoading(false)
+                swal.fire({
+                    title: 'error while upload file',
+                    text: 'Please Try Again Later, Or call CS on 082242747182',
+                    type: 'error'
+                })
+
+            }
+
+        }
+
+
+    }
 
 
     return (
@@ -213,12 +275,12 @@ function AddSpot(props) {
                                 <div>
                                     {
                                         spotPhoto.map((val) => {
-                                            return(
-                                            <Tooltip placement='top' title='Delete'>
-                                                <Button onClick={() => { setSpotPhoto('') }}>
-                                                    <img style={{ maxHeight: '100px', maxWidth: '100px' }} src={val} alt="" />
-                                                </Button>
-                                            </Tooltip>
+                                            return (
+                                                <Tooltip placement='top' title='Delete'>
+                                                    <Button onClick={() => { setSpotPhoto('') }}>
+                                                        <img style={{ maxHeight: '100px', maxWidth: '100px' }} src={val} alt="" />
+                                                    </Button>
+                                                </Tooltip>
                                             )
                                         })
                                     }
@@ -264,7 +326,7 @@ function AddSpot(props) {
                     <Typography className={classes.title} variant="subtitle1" gutterBottom>
                         Open Hours
                     </Typography>
-                    <OpenHours />
+                    <OpenHours OpenHoursCallBack={callOpenHours} />
                     <br />
                     <CategorySelect
                         categoryCallBack={callBackFunction}
@@ -281,7 +343,7 @@ function AddSpot(props) {
                 &nbsp;
                 &nbsp;
                 &nbsp;
-                <SaveButton />
+                <SaveButton submit={sendNewSpot} />
 
             </Grid>
 

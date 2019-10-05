@@ -10,6 +10,8 @@ import { Container } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+
+
 const StyledTableCell = withStyles(theme => ({
     head: {
         backgroundColor: '#484848',
@@ -94,7 +96,7 @@ export default function CustomizedTables(props) {
                                 </StyledTableCell>
                                <StyledTableCell>
                                    <CreateIcon className={classes.editIcon} onClick={() => editSpot(item)} x={props.item} />
-                                   <DeleteIcon className={classes.deleteIcon} onClick={() => { deleteSpot()}}/>
+                                   <DeleteIcon className={classes.deleteIcon} onClick={() => { props.deleteSpot(item.id)}}/>
                                </StyledTableCell>
 
                             </StyledTableRow>

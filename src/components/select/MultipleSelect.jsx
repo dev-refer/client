@@ -60,6 +60,7 @@ function MultipleSelect(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [categoryName, setCategoryName] = useState([]);
+  
 
   useEffect(() => {
       props.getCategory()
@@ -81,7 +82,8 @@ function MultipleSelect(props) {
     
   }
 
-
+  // console.log(categoryName);
+  
     return (
         <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-chip">Category</InputLabel>
@@ -92,7 +94,7 @@ function MultipleSelect(props) {
                 input={<Input id="select-multiple-chip" />}
                 renderValue={selected => (
                     <div className={classes.chips}>
-                        {selected.map(value => (
+                        {selected.map(value => (                          
                             <Chip key={value} label={value} className={classes.chip} />
                         ))}
                     </div>

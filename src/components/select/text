@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import SpotTable from '../../components/Table/SpotTable.jsx';
+import SpotTable from '../../components/table/SpotTable.jsx';
 import AddButton from '../../components/button/addSpotButton.jsx';
 import Loading from '../../components/Loading/index.js';
 import Pagination from 'material-ui-flat-pagination'
@@ -99,8 +99,7 @@ function Spot(props) {
             try {
                 setLoading(true)
                 await axios(options)
-                await props.getSpot({order: 'DESC', sort: 'id', pages: 1})
-                await props.getSpotDetail()
+                await props.getCategory()
                 setLoading(false)
                 swal.fire(
                     'Delete',
@@ -108,7 +107,6 @@ function Spot(props) {
                     'success'
                 )
             } catch (error) {
-                console.log(error);
                 setLoading(false)
                 swal.fire(
                     'Error',
@@ -153,7 +151,6 @@ function Spot(props) {
                     />
                     </div>
             }
-
         </div>
     );
 }

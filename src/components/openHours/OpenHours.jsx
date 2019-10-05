@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import _ from 'lodash';
 
 class OpenHours extends Component {
 
@@ -6,7 +7,102 @@ class OpenHours extends Component {
         times: {}
     }
 
+
+    // changeDate = (e) => {
+    //     if (e.target.checked) {
+    //         this.setState({
+    //             times: {
+    //                 ...this.state.times,
+    //                 [e.target.name]: { Open: "", Close: "" }
+    //             }
+    //         })
+    //     } else if (!e.target.checked) {
+    //         this.setState({
+    //             times: {
+    //                 ...this.state.times,
+    //                 [e.target.name]: ""
+    //             }
+    //         })
+    //     }
+    // }
+    
+    changeDate = e => {
+        let times = this.state.times;
+        if (e.target.checked){
+          times = {
+            ...this.state.times,
+            [e.target.name]: {Open: null, Close: null}
+          }
+        } else {
+          times = {
+            ...this.state.times,
+            [e.target.name]: null
+          }
+        }
+        this.setState({times});
+      }
+
+    changeTimesOpen = (e) => {
+        let obj = e.target.className
+        const result = _.get(this.state.times, obj, "")
+        let Close = ""
+        if (result) {
+            Close = _.get(result, 'Close', "")
+        }
+        this.setState({
+            times: {
+                ...this.state.times,
+                [e.target.className]: {
+                    Open: e.target.value,
+                    Close
+                }
+            }
+        }, this.sendSelectedOpenHours)
+    }
+    changeTimesClose = (e) => {
+        let obj = e.target.className
+        const result = _.get(this.state.times, obj, "")
+        let Open = ""
+        if (result) {
+            Open = _.get(result, 'Open', "")
+        }
+        this.setState({
+            times: {
+                ...this.state.times,
+                [e.target.className]: {
+                    Close: e.target.value,
+                    Open
+                }
+            }
+        }, this.sendSelectedOpenHours)
+    }
+
+    validateTimes = () => {
+        let arr = Object.entries(this.state.times)
+        let data = []
+        if (arr.length === 0) {
+          return false
+        }
+        for (let i = 0; i < arr.length; i++) {
+          if (typeof arr[i][1] !== 'string') {
+            if (!arr[i][1].Open || !arr[i][1].Close) {
+              return false
+            }
+            data.push(arr[i])
+          }
+        }
+        return data
+    }
+
+    sendSelectedOpenHours = () => {
+        // console.log('masuk');
+        this.props.OpenHoursCallBack(this.state.times)
+      }
+
+
     render() {
+        console.log(this.state);
+        
         return (
             <div className="form-group">
                 {/* <label>Operating Time</label> <br /> */}
