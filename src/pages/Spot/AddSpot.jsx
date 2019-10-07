@@ -13,6 +13,7 @@ import { Button, Tooltip } from '@material-ui/core';
 import { Add } from '@material-ui/icons'
 import { connect } from 'react-redux';
 import { fetchCategory } from '../../redux/actions/category.action';
+import { fetchSpot } from '../../redux/actions/spot.action';
 
 import swal from 'sweetalert2';
 import axios from '../../libs/axios';
@@ -49,8 +50,7 @@ function AddSpot(props) {
     }, [])
 
     const classes = useStyles();
-    const { photo, photo1, photo2 } = props
-    const [values, setValues] = useState([]);
+    const [values] = useState([]);
     const [spotName, setSpotName] = useState('')
     const [spotPhone, setSpotPhone] = useState('')
     const [spotEmail, setSpotEmail] = useState('')
@@ -65,8 +65,10 @@ function AddSpot(props) {
     const [category, setCategory] = useState([])
     const [loading, setLoading] = useState(false)
 
-    console.log(category);
 
+    // useEffect(() => {
+    //    props.getSpot()
+    // })
 
     const callBackFunction = (selectedCategoryData) => {
         setCategory(selectedCategoryData)
@@ -76,8 +78,6 @@ function AddSpot(props) {
         setOpenHours(selectedOpenHours)
     }
     
-
-
 
     const changePhoto = async (e) => {
         const data = new FormData()
@@ -167,6 +167,8 @@ function AddSpot(props) {
                     text: 'New spot successfully added',
                     type: 'success'
                 })
+                props.getSpot()
+
             } catch (error) {
                 console.log(error);
                 setLoading(false)
@@ -175,12 +177,8 @@ function AddSpot(props) {
                     text: 'Please Try Again Later, Or call CS on 082242747182',
                     type: 'error'
                 })
-
             }
-
         }
-
-
     }
 
 
@@ -359,6 +357,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
+        // getSpot: () => dispatch(fetchSpot({})),
         getCategory: () => dispatch(fetchCategory({}))
     };
 };
