@@ -66,9 +66,9 @@ function AddSpot(props) {
     const [loading, setLoading] = useState(false)
 
 
-    // useEffect(() => {
-    //    props.getSpot()
-    // })
+    useEffect(() => {
+        props.getSpot()
+    }, [])
 
     const callBackFunction = (selectedCategoryData) => {
         setCategory(selectedCategoryData)
@@ -355,7 +355,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        // getSpot: () => dispatch(fetchSpot({})),
+        getSpot: () => dispatch(fetchSpot({})),
         getCategory: () => dispatch(fetchCategory({}))
     };
 };
