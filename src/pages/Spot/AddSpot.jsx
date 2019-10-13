@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Maps from '../../components/Maps/maps.jsx';
+import Maps from '../../components/Maps/Maps.jsx';
 import OpenHours from '../../components/openHours/OpenHours.jsx';
 import CategorySelect from '../../components/select/MultipleSelect';
 import SaveButton from '../../components/button/SaveButton.jsx';

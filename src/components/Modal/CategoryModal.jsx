@@ -166,6 +166,9 @@ export default function CategoryModal(props) {
         setCategoryDescription('')
     }
 
+    console.log(props, 'props di catmodal');
+
+
     return (
         <Modal
             aria-labelledby="simple-modal-title"
@@ -228,7 +231,7 @@ export default function CategoryModal(props) {
                 <br />
                 <Fab onClick={close} style={{ backgroundColor: '#e3e2de', color: 'black', marginTop: 20, minWidth: '100px' }} variant="extended" aria-label="delete">
                     Discard
-            </Fab>
+                </Fab>
                 {
                     currentModal === 'Add'
                         ? <Fab onClick={() => { submitCategory() }} style={{ backgroundColor: '#fd6a02', color: '#f2efef', marginTop: 20, minWidth: '100px', marginLeft: 20 }} variant="extended" aria-label="delete">

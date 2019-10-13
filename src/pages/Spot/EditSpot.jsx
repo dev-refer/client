@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import Maps from '../../components/Maps/maps.jsx';
+import Maps from '../../components/Maps/Maps.jsx';
 import OpenHours from '../../components/openHours/OpenHours.jsx';
 import CategorySelect from '../../components/select/MultipleSelect.jsx';
 import SaveButton from '../../components/button/SaveButton.jsx';
