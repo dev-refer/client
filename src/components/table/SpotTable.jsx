@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -65,7 +65,7 @@ export default function CustomizedTables(props) {
 
     // }    
 
-    
+
 
     return (
         <Container maxWidth="xl">
@@ -93,10 +93,10 @@ export default function CustomizedTables(props) {
                                         return val.name + ', '
                                     })}
                                 </StyledTableCell>
-                               <StyledTableCell>
-                                   <CreateIcon className={classes.editIcon} onClick={() => editSpot(item)} x={props.item} />
-                                   <DeleteIcon className={classes.deleteIcon} onClick={() => { props.deleteSpot(item.id)}}/>
-                               </StyledTableCell>
+                                <StyledTableCell>
+                                    <CreateIcon className={classes.editIcon} onClick={() => editSpot(item)} x={props.item} />
+                                    <DeleteIcon className={classes.deleteIcon} onClick={() => { props.deleteSpot(item.id) }} />
+                                </StyledTableCell>
 
                             </StyledTableRow>
                         ))}

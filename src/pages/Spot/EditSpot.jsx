@@ -5,8 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Maps from '../../components/Maps/maps.jsx';
-import OpenHours from '../../components/OpenHours/OpenHours.jsx';
-import CategorySelect from '../../components/Select/MultipleSelect.jsx';
+import OpenHours from '../../components/openHours/OpenHours.jsx';
+import CategorySelect from '../../components/select/MultipleSelect.jsx';
 import SaveButton from '../../components/button/SaveButton.jsx';
 import DiscardButton from '../../components/button/DiscardButton.jsx';
 import Typography from '@material-ui/core/Typography';
@@ -215,7 +215,7 @@ function EditSpot(props) {
                         <Typography className={classes.title} variant="subtitle1" gutterBottom>
                             Maps
                         </Typography>
-                        <Maps lat={spotLatitude} long={spotLongitude}/>
+                        <Maps lat={spotLatitude} long={spotLongitude} />
                     </div>
                     <br />
                     <div className={classes.maps}>

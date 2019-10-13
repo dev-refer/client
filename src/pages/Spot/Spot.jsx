@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import SpotTable from '../../components/Table/SpotTable.jsx';
+import SpotTable from '../../components/table/SpotTable.jsx';
 import AddButton from '../../components/button/addSpotButton.jsx';
 import Loading from '../../components/Loading/index.js';
 import Pagination from 'material-ui-flat-pagination'
@@ -69,7 +69,7 @@ function Spot(props) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        props.getSpot({order: 'DESC', sort: 'id', pages: 1});
+        props.getSpot({ order: 'DESC', sort: 'id', pages: 1 });
         props.getSpotDetail({ tes: '123' });
     }, [])
 
@@ -99,7 +99,7 @@ function Spot(props) {
             try {
                 setLoading(true)
                 await axios(options)
-                await props.getSpot({order: 'DESC', sort: 'id', pages: 1})
+                await props.getSpot({ order: 'DESC', sort: 'id', pages: 1 })
                 await props.getSpotDetail()
                 setLoading(false)
                 swal.fire(
@@ -142,15 +142,15 @@ function Spot(props) {
                 props.spot.loading
                     ? <Loading /> :
                     <div>
-                    <SpotTable data={props.spot.spotList} edit={props.history} spotDetail={props.getSpotDetail} deleteSpot={deleteSpot}/>
-                    <Pagination
-                      total = { Math.ceil(props.spot.count/props.spot.limit) }
-                      offset = { number }
-                      onClick = { (e, offset) => {
-                        props.getSpot({order: 'DESC', sort: 'id', pages: offset+1})
-                        setNumber(offset);
-                      } }
-                    />
+                        <SpotTable data={props.spot.spotList} edit={props.history} spotDetail={props.getSpotDetail} deleteSpot={deleteSpot} />
+                        <Pagination
+                            total={Math.ceil(props.spot.count / props.spot.limit)}
+                            offset={number}
+                            onClick={(e, offset) => {
+                                props.getSpot({ order: 'DESC', sort: 'id', pages: offset + 1 })
+                                setNumber(offset);
+                            }}
+                        />
                     </div>
             }
 

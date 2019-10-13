@@ -4,8 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Maps from '../../components/Maps/maps.jsx';
-import OpenHours from '../../components/OpenHours/OpenHours.jsx';
-import CategorySelect from '../../components/Select/MultipleSelect.jsx';
+import OpenHours from '../../components/openHours/OpenHours.jsx';
+import CategorySelect from '../../components/select/MultipleSelect';
 import SaveButton from '../../components/button/SaveButton.jsx';
 import DiscardButton from '../../components/button/DiscardButton.jsx';
 import Typography from '@material-ui/core/Typography';
@@ -77,7 +77,7 @@ function AddSpot(props) {
     const callOpenHours = (selectedOpenHours) => {
         setOpenHours(selectedOpenHours)
     }
-    
+
 
     const changePhoto = async (e) => {
         const data = new FormData()
@@ -168,6 +168,7 @@ function AddSpot(props) {
                     type: 'success'
                 })
                 props.getSpot()
+                window.location.replace('/spot')
 
             } catch (error) {
                 console.log(error);
@@ -342,10 +343,7 @@ function AddSpot(props) {
                 &nbsp;
                 &nbsp;
                 <SaveButton submit={sendNewSpot} />
-
             </Grid>
-
-
         </div>
     )
 }

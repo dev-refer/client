@@ -25,22 +25,22 @@ class OpenHours extends Component {
     //         })
     //     }
     // }
-    
+
     changeDate = e => {
         let times = this.state.times;
-        if (e.target.checked){
-          times = {
-            ...this.state.times,
-            [e.target.name]: {Open: null, Close: null}
-          }
+        if (e.target.checked) {
+            times = {
+                ...this.state.times,
+                [e.target.name]: { Open: null, Close: null }
+            }
         } else {
-          times = {
-            ...this.state.times,
-            [e.target.name]: null
-          }
+            times = {
+                ...this.state.times,
+                [e.target.name]: null
+            }
         }
-        this.setState({times});
-      }
+        this.setState({ times });
+    }
 
     changeTimesOpen = (e) => {
         let obj = e.target.className
@@ -81,15 +81,15 @@ class OpenHours extends Component {
         let arr = Object.entries(this.state.times)
         let data = []
         if (arr.length === 0) {
-          return false
+            return false
         }
         for (let i = 0; i < arr.length; i++) {
-          if (typeof arr[i][1] !== 'string') {
-            if (!arr[i][1].Open || !arr[i][1].Close) {
-              return false
+            if (typeof arr[i][1] !== 'string') {
+                if (!arr[i][1].Open || !arr[i][1].Close) {
+                    return false
+                }
+                data.push(arr[i])
             }
-            data.push(arr[i])
-          }
         }
         return data
     }
@@ -97,12 +97,12 @@ class OpenHours extends Component {
     sendSelectedOpenHours = () => {
         // console.log('masuk');
         this.props.OpenHoursCallBack(this.state.times)
-      }
+    }
 
 
     render() {
         console.log(this.state);
-        
+
         return (
             <div className="form-group">
                 {/* <label>Operating Time</label> <br /> */}
