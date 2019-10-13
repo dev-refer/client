@@ -5,6 +5,7 @@ const fetchCategory = ({ order, sort, pages }) => {
     return async dispatch => {
         dispatch({ type: 'SET_CATEGORY_LIST_LOADING' })
         try {
+            
             const result = await axios({
                 method: 'GET',
                 headers: {

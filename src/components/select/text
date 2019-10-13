@@ -69,7 +69,7 @@ function Spot(props) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        props.getSpot({ order: 'DESC', sort: 'id', pages: 1 });
+        props.getSpot({order: 'DESC', sort: 'id', pages: 1});
         props.getSpotDetail({ tes: '123' });
     }, [])
 
@@ -99,8 +99,7 @@ function Spot(props) {
             try {
                 setLoading(true)
                 await axios(options)
-                await props.getSpot({ order: 'DESC', sort: 'id', pages: 1 })
-                await props.getSpotDetail()
+                await props.getCategory()
                 setLoading(false)
                 swal.fire(
                     'Delete',
@@ -108,7 +107,6 @@ function Spot(props) {
                     'success'
                 )
             } catch (error) {
-                console.log(error);
                 setLoading(false)
                 swal.fire(
                     'Error',
@@ -142,18 +140,17 @@ function Spot(props) {
                 props.spot.loading
                     ? <Loading /> :
                     <div>
-                        <SpotTable data={props.spot.spotList} edit={props.history} spotDetail={props.getSpotDetail} deleteSpot={deleteSpot} />
-                        <Pagination
-                            total={Math.ceil(props.spot.count / props.spot.limit)}
-                            offset={number}
-                            onClick={(e, offset) => {
-                                props.getSpot({ order: 'DESC', sort: 'id', pages: offset + 1 })
-                                setNumber(offset);
-                            }}
-                        />
+                    <SpotTable data={props.spot.spotList} edit={props.history} spotDetail={props.getSpotDetail} deleteSpot={deleteSpot}/>
+                    <Pagination
+                      total = { Math.ceil(props.spot.count/props.spot.limit) }
+                      offset = { number }
+                      onClick = { (e, offset) => {
+                        props.getSpot({order: 'DESC', sort: 'id', pages: offset+1})
+                        setNumber(offset);
+                      } }
+                    />
                     </div>
             }
-
         </div>
     );
 }

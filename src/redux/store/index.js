@@ -8,6 +8,7 @@ import category from '../reducer/categoryList';
 import currentPage from '../reducer/currentPage';
 import spot from '../reducer/spotList';
 import user from '../reducer/auth';
+import spotData from '../reducer/spotDetail';
 
 export const history = createBrowserHistory();
 
@@ -24,6 +25,7 @@ export const store = createStore(
         currentPage,
         spot,
         user,
+        spotData,
         router: connectRouter(history)
     }),
     composeEnhancers(...enhancers)

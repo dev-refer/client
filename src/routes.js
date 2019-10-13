@@ -27,6 +27,12 @@ const routes = [
         component: loadable(() => import('./pages/Spot/AddSpot'))
     },
     {
+        id: 'editspot',
+        title: 'Edit Spot',
+        path: '/edit-spot/:id',
+        component: loadable(() => import('./pages/Spot/EditSpot'))
+    },
+    {
         id: 'categories',
         title: 'Categories',
         path: '/categories',

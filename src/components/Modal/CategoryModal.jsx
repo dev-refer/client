@@ -166,7 +166,6 @@ export default function CategoryModal(props) {
         setCategoryDescription('')
     }
 
-
     return (
         <Modal
             aria-labelledby="simple-modal-title"
@@ -218,8 +217,6 @@ export default function CategoryModal(props) {
                         </label>
                         : null
                 }
-
-
                 <input
                     accept="image/*"
                     style={{ display: 'none' }}

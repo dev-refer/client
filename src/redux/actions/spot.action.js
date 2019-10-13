@@ -27,7 +27,6 @@ const fetchSpot = ({ order, sort, pages }) => {
 
 const fetchSpotById = (spotId) => {
     return async dispatch => {
-        dispatch({ type: 'SET_SPOT_LIST_LOADING' })
         try {
             const result = await axios({
                 method: 'GET',
@@ -36,13 +35,12 @@ const fetchSpotById = (spotId) => {
                 },
                 url: `/v1/spots?spotId=${spotId}`
             })
-          
-            dispatch({ type: 'SET_SPOT_LIST', spotList: result.data.data, count: 0, limit: 0, page:1 , error: false })
+            dispatch({ type: 'SET_SPOT_DATA', data: result.data.data, error: false })
         } catch (error) {
-            dispatch({ type: 'SET_SPOT_LIST', error: true })
+            dispatch({ type: 'SET_SPOT_DATA', error: true })
         }
     }
-    
+
 }
 
 

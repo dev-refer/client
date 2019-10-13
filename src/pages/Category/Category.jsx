@@ -127,6 +127,9 @@ function Category(props) {
         </Grid>
     })
 
+    console.log(props, 'props di category');
+    
+
     return <Grid container>
         <CategoryBulk
             categoryName={categoryName}
