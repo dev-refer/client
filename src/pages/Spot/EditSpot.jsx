@@ -215,7 +215,7 @@ function EditSpot(props) {
                         <Typography className={classes.title} variant="subtitle1" gutterBottom>
                             Maps
                         </Typography>
-                        <Maps lat={spotLatitude} long={spotLongitude} />
+                        <Maps setLat={setSpotLatitude} setLong={setSpotLongitude} lat={spotLatitude} long={spotLongitude} />
                     </div>
                     <br />
                     <div className={classes.maps}>
