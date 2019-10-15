@@ -261,7 +261,7 @@ function AddSpot(props) {
                         <Typography className={classes.title} variant="subtitle1" gutterBottom>
                             Maps
                         </Typography>
-                        <Maps lat={values.latitude} long={values.longitude} />
+                        <Maps setLat={setSpotLatitude} setLong={setSpotLongitude} lat={spotLatitude} long={spotLongitude} />
                     </div>
                     <br />
                     <div className={classes.maps}>
