@@ -6,7 +6,7 @@ axios.interceptors.response.use(
     return response.data;
   },
   function(error) {
-    return error.response
+    return error
   }
 );
 

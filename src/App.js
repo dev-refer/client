@@ -1,28 +1,65 @@
 import React, { Component } from 'react';
-import Login from './pages/login/Login.jsx';
-import Dashboard from './pages/dashboard/dashboard.jsx';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom'
 import { PrivateRoute } from './privateRoute';
 
-// import './App.css';
+import routes from './routes';
+import Login from './pages/Login';
+import Header from './components/Header/Header';
+import Sidebar from './components/Sidebar/Sidebar';
+import Content from './components/Content/Content';
+
+// const createBrowserHistory = require('history').createBrowserHistory;
+// export const history = createBrowserHistory();
 
 class App extends Component {
+  componentDidMount() {
+
+  }
+
   render() {
+    const mainLayout = (
+      <React.Fragment>
+        <div style={{ display: 'flex' }}>
+          <Header />
+          <Sidebar />
+          <Content>
+            {
+              routes.map((val, index) => {
+                return <PrivateRoute exact path={val.path} component={val.component} key={index} />
+              })
+            }
+          </Content>
+        </div>
+      </React.Fragment>
+    )
+
     return (
-      <div className="App">
-        <Router>
-          <Switch>
-            <Route path='/' component={Login} exact />
-            <PrivateRoute
-            path='/dashboard'
-            component={Dashboard}
-            />
-            <Route component={() => <h1>404 not found</h1>} />
-          </Switch>
-        </Router>
-      </div>
+      <Switch>
+        <Route exact path='/login' component={Login} />
+        {mainLayout}
+      </Switch>
     )
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  isLogin: state
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
