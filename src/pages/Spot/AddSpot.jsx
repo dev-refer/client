@@ -14,6 +14,7 @@ import { Add } from '@material-ui/icons'
 import { connect } from 'react-redux';
 import { fetchCategory } from '../../redux/actions/category.action';
 import { fetchSpot } from '../../redux/actions/spot.action';
+import Loading from '../../components/Loading/index.js';
 
 import swal from 'sweetalert2';
 import axios from '../../libs/axios';
@@ -130,15 +131,15 @@ function AddSpot(props) {
     }
 
     const sendNewSpot = async () => {
+        alert('masuk sini')
         const operatingTimes = validateTimes();
         if (operatingTimes) {
-
             var categoryId = [];
             category.map(cat => {
                 let c = props.categories.categoryList.find(item => item.name == cat)
                 categoryId.push(c.id);
             })
-            console.log(categoryId)
+            console.log(categoryId, 'ini category id')
 
             try {
                 setLoading(true)
@@ -161,34 +162,47 @@ function AddSpot(props) {
                         token: localStorage.getItem('token')
                     }
                 })
-                setLoading(false)
-                swal.fire({
-                    title: 'success',
-                    text: 'New spot successfully added',
-                    type: 'success'
-                })
-                props.getSpot()
-                window.location.replace('/spot')
+                console.log('masuk sukses')
+                // setLoading(false)
+                // swal.fire({
+                //     title: 'success',
+                //     text: 'New spot successfully added',
+                //     type: 'success'
+                // })
+                // props.getSpot()
+                // window.location.replace('/spot')
 
             } catch (error) {
-                console.log(error);
-                setLoading(false)
-                swal.fire({
-                    title: 'error while upload file',
-                    text: 'Please Try Again Later, Or call CS on 082242747182',
-                    type: 'error'
-                })
+                console.log(error,'masuk error');
+                // setLoading(false)
+                // swal.fire({
+                //     title: 'error while upload file',
+                //     text: 'Please Try Again Later, Or call CS on 082242747182',
+                //     type: 'error'
+                // })
             }
         }
     }
 
+    const deletePhoto = (data) => {
+        const newPhoto = spotPhoto.filter(val => {
+            return val !== data
+        })
+        setSpotPhoto(newPhoto)
+    }
 
     return (
 
         <div className={classes.root}>
-            <CssBaseline />
+            {
+                loading
+                    ? <Loading />
+                    : null
+            }
             <h1 className={classes.pageTitle}>Spot Information</h1>
             <Grid container>
+          
+            <CssBaseline />
                 <Grid container item direction="column" xs={6} className={classes.gridColumn}>
                     <TextField
                         id="standard-name"
@@ -276,7 +290,7 @@ function AddSpot(props) {
                                         spotPhoto.map((val) => {
                                             return (
                                                 <Tooltip placement='top' title='Delete'>
-                                                    <Button onClick={() => { setSpotPhoto('') }}>
+                                                    <Button onClick={() => { deletePhoto(val) }}>
                                                         <img style={{ maxHeight: '100px', maxWidth: '100px' }} src={val} alt="" />
                                                     </Button>
                                                 </Tooltip>

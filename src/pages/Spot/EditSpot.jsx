@@ -11,7 +11,8 @@ import SaveButton from '../../components/button/SaveButton.jsx';
 import DiscardButton from '../../components/button/DiscardButton.jsx';
 import Typography from '@material-ui/core/Typography';
 import { Button, Tooltip, Fab } from '@material-ui/core';
-import { Add } from '@material-ui/icons'
+import { Add } from '@material-ui/icons';
+import Loading from '../../components/Loading/index.js';
 
 import { setSpotDetail } from '../../redux/actions/spotDetail.action';
 import { connect } from 'react-redux';
@@ -94,6 +95,7 @@ function EditSpot(props) {
         setSpotLatitude(props.spotDetail.spotDetail.latitude)
         setSpotLongitude(props.spotDetail.spotDetail.longitude)
         setSpotDescription(props.spotDetail.spotDetail.description)
+        console.log(props.spotDetail.spotDetail, 'ini spot detail')
     }, [])
 
     // const handleChange = name => e => {
@@ -108,6 +110,7 @@ function EditSpot(props) {
     const changePhoto = async (e) => {
         const data = new FormData()
         data.append('image', e.target.files[0])
+
         try {
             setLoading(true)
             const result = await axios({
@@ -118,7 +121,13 @@ function EditSpot(props) {
                     token: localStorage.getItem('token')
                 }
             })
-            setSpotPhoto(result.data.link)
+            const arr = [
+                ...spotPhoto,
+                result.data.link
+            ]
+            console.log(arr);
+
+            setSpotPhoto(arr)
             setLoading(false)
         } catch (error) {
             setLoading(false)
@@ -133,13 +142,27 @@ function EditSpot(props) {
     // console.log(props.spotDetail.spotDetail.name, 'ini props di editspot');
     // console.log(props, 'prpos edit');
 
+    const deletePhoto = (data) => {
+        const newPhoto = spotPhoto.filter(val => {
+            return val !== data
+        })
+        setSpotPhoto(newPhoto)
+    }
 
+    const submitUpdate = async() => {
+
+    }
     return (
         //KETIKA SPOTDETAIL PROPS ADA TAMPILKAN SPOT DETAIL
         // KETIKA SPOTDETAIL GA ADA TAMPILKAN LOADING => GET SPOTDETAIL DULU
         // KETIKA HASI AKHIR SPOT DETAIL GA ADA< TAMPILKAN ERROR MESSAGE SPOT DETAIL GA KETEMEU
         <div className={classes.root}>
             <CssBaseline />
+            {
+                loading
+                ?<Loading/>
+                :null
+            }
             <h1 className={classes.pageTitle}>Spot Information</h1>
             <Grid container>
                 <Grid container item direction="column" xs={6} className={classes.gridColumn}>
@@ -219,20 +242,30 @@ function EditSpot(props) {
                     </div>
                     <br />
                     <div className={classes.maps}>
-                        <Typography className={classes.title} variant="subtitle1" gutterBottom>
+                    <Typography className={classes.title} variant="subtitle1" gutterBottom>
                             Add Photo
                         </Typography>
                         {
-                            spotPhoto
-                                ? <Tooltip placement='top' title='Delete'>
-                                    <Button onClick={() => { setSpotPhoto('') }}>
-                                        <img style={{ maxHeight: '100px', maxWidth: '100px' }} src={spotPhoto} alt="" />
-                                    </Button>
-                                </Tooltip>
+                            spotPhoto.length !== 0
+                                ?
+                                <div>
+                                    {
+                                        spotPhoto.map((val) => {
+                                            return (
+                                                <Tooltip placement='top' title='Delete'>
+                                                    <Button onClick={() => { deletePhoto(val) }}>
+                                                        <img style={{ maxHeight: '100px', maxWidth: '100px' }} src={val} alt="" />
+                                                    </Button>
+                                                </Tooltip>
+                                            )
+                                        })
+                                    }
+
+                                </div>
                                 : null
                         }
                         {
-                            !spotPhoto
+                            spotPhoto.length <= 5
                                 ? <label htmlFor="outlined-button-file">
                                     <Button style={{ height: '100px', width: '100px' }} variant="outlined" component="span" className={classes.button}>
                                         <Add />
@@ -240,6 +273,7 @@ function EditSpot(props) {
                                 </label>
                                 : null
                         }
+
                         <input
                             accept="image/*"
                             style={{ display: 'none' }}
@@ -248,6 +282,7 @@ function EditSpot(props) {
                             type="file"
                             onChange={(e) => { changePhoto(e) }}
                         />
+
                     </div>
                     <br />
                 </Grid>
@@ -280,12 +315,11 @@ function EditSpot(props) {
                     containerElement='label' // <-- Just add me!
                     label='My Label'>
                     <input type="file" />
-                    >
                 </DiscardButton>
                 &nbsp;
                 &nbsp;
                 &nbsp;
-                <SaveButton />
+                <SaveButton submit={()=>{alert('asd')}} />
             </Grid>
         </div>
     )
