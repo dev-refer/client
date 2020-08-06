@@ -101,7 +101,6 @@ class OpenHours extends Component {
 
 
     render() {
-        console.log(this.state);
 
         return (
             <div className="form-group">

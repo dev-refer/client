@@ -61,6 +61,7 @@ function AddSpot(props) {
     const [spotLatitude, setSpotLatitude] = useState('')
     const [spotLongitude, setSpotLongitude] = useState('')
     const [spotDescription, setSpotDescription] = useState('')
+    const [spotRegion, setSpotRegion] = useState('')
     const [spotPhoto, setSpotPhoto] = useState([])
     const [openHours, setOpenHours] = useState([])
     const [category, setCategory] = useState([])
@@ -98,8 +99,6 @@ function AddSpot(props) {
                 ...spotPhoto,
                 result.data.link
             ]
-            console.log(arr);
-
             setSpotPhoto(arr)
             setLoading(false)
         } catch (error) {
@@ -131,7 +130,6 @@ function AddSpot(props) {
     }
 
     const sendNewSpot = async () => {
-        alert('masuk sini')
         const operatingTimes = validateTimes();
         if (operatingTimes) {
             var categoryId = [];
@@ -139,7 +137,6 @@ function AddSpot(props) {
                 let c = props.categories.categoryList.find(item => item.name == cat)
                 categoryId.push(c.id);
             })
-            console.log(categoryId, 'ini category id')
 
             try {
                 setLoading(true)
@@ -156,30 +153,30 @@ function AddSpot(props) {
                         address: spotAddress,
                         operatingTimes: operatingTimes,
                         categoryId: categoryId,
-                        image: spotPhoto
+                        image: spotPhoto,
+                        country: spotCountry,
+                        region: spotRegion
                     },
                     headers: {
                         token: localStorage.getItem('token')
                     }
                 })
-                console.log('masuk sukses')
-                // setLoading(false)
-                // swal.fire({
-                //     title: 'success',
-                //     text: 'New spot successfully added',
-                //     type: 'success'
-                // })
-                // props.getSpot()
-                // window.location.replace('/spot')
+                setLoading(false)
+                swal.fire({
+                    title: 'success',
+                    text: 'New spot successfully added',
+                    type: 'success'
+                })
+                props.getSpot()
+                window.location.replace('/spot')
 
             } catch (error) {
-                console.log(error,'masuk error');
-                // setLoading(false)
-                // swal.fire({
-                //     title: 'error while upload file',
-                //     text: 'Please Try Again Later, Or call CS on 082242747182',
-                //     type: 'error'
-                // })
+                setLoading(false)
+                swal.fire({
+                    title: 'error while upload file',
+                    text: 'Please Try Again Later, Or call CS on 082242747182',
+                    type: 'error'
+                })
             }
         }
     }
@@ -222,14 +219,6 @@ function AddSpot(props) {
                     />
                     <TextField
                         id="standard-name"
-                        label="Email"
-                        className={classes.textField}
-                        value={spotEmail}
-                        onChange={(e) => { setSpotEmail(e.target.value) }}
-                        margin="normal"
-                    />
-                    <TextField
-                        id="standard-name"
                         label="City"
                         className={classes.textField}
                         value={spotCity}
@@ -244,6 +233,14 @@ function AddSpot(props) {
                         onChange={(e) => { setSpotCountry(e.target.value) }}
                         margin="normal"
                     />
+                    <TextField
+                    id="standard-name"
+                    label="Region"
+                    className={classes.textField}
+                    value={spotRegion}
+                    onChange={(e) => { setSpotRegion(e.target.value) }}
+                    margin="normal"
+                />
                     <TextField
                         id="standard-multiline-static"
                         label="Address"

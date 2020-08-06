@@ -60,9 +60,11 @@ function EditSpot(props) {
     const [spotCountry, setSpotCountry] = useState('');
     const [spotAddress, setSpotAddress] = useState('');
     const [spotLatitude, setSpotLatitude] = useState('');
+    const [spotRegion, setSpotRegion] = useState('');
     const [spotLongitude, setSpotLongitude] = useState('');
     const [spotDescription, setSpotDescription] = useState('');
     const [categoryName, setCategoryName] = useState([]);
+    const [openHours, setOpenHours] = useState([])
 
     const [spotPhoto, setSpotPhoto] = useState(photo || '')
     const [loading, setLoading] = useState(false)
@@ -95,16 +97,38 @@ function EditSpot(props) {
         setSpotLatitude(props.spotDetail.spotDetail.latitude)
         setSpotLongitude(props.spotDetail.spotDetail.longitude)
         setSpotDescription(props.spotDetail.spotDetail.description)
+        setSpotRegion(props.spotDetail.spotDetail.region)
+        let images =[]
+        props.spotDetail.spotDetail.images && props.spotDetail.spotDetail.images.forEach(value => {
+            images.push(value.link)
+        })
+        setSpotPhoto(images)
         console.log(props.spotDetail.spotDetail, 'ini spot detail')
     }, [])
 
-    // const handleChange = name => e => {
-    //     setValues({ ...values, [name]: e.target.value });
-    //     console.log(e.target.value);
-    // };
-
     const callBackFunction = (selectedCategoryData) => {
         setCategoryName(selectedCategoryData)
+    }
+
+    const validateTimes = () => {
+        let arr = Object.entries(openHours)
+        let data = []
+        if (arr.length === 0) {
+            return false
+        }
+        for (let i = 0; i < arr.length; i++) {
+            if (typeof arr[i][1] !== 'string') {
+                if (!arr[i][1].Open || !arr[i][1].Close) {
+                    return false
+                }
+                data.push(arr[i])
+            }
+        }
+        return data
+    }
+
+    const callOpenHours = (selectedOpenHours) => {
+        setOpenHours(selectedOpenHours)
     }
 
     const changePhoto = async (e) => {
@@ -150,7 +174,55 @@ function EditSpot(props) {
     }
 
     const submitUpdate = async() => {
+        const operatingTimes = validateTimes();
+        if (operatingTimes) {
+            var categoryId = [];
+            categoryName.map(cat => {
+                let c = props.categories.categoryList.find(item => item.name == cat)
+                categoryId.push(c.id);
+            })
 
+            try {
+                setLoading(true)
+                await axios({
+                    method: 'POST',
+                    url: '/v1/spots',
+                    data: {
+                        name: spotName,
+                        description: spotDescription,
+                        phone: spotPhone,
+                        latitude: spotLatitude,
+                        longitude: spotLongitude,
+                        city: spotCity,
+                        address: spotAddress,
+                        operatingTimes: operatingTimes,
+                        categoryId: categoryId,
+                        image: spotPhoto,
+                        country: spotCountry,
+                        region: spotRegion
+                    },
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
+                })
+                setLoading(false)
+                swal.fire({
+                    title: 'success',
+                    text: 'New spot successfully added',
+                    type: 'success'
+                })
+                props.getSpot()
+                window.location.replace('/spot')
+
+            } catch (error) {
+                setLoading(false)
+                swal.fire({
+                    title: 'error while upload file',
+                    text: 'Please Try Again Later, Or call CS on 082242747182',
+                    type: 'error'
+                })
+            }
+        }
     }
     return (
         //KETIKA SPOTDETAIL PROPS ADA TAMPILKAN SPOT DETAIL
@@ -180,14 +252,6 @@ function EditSpot(props) {
                         className={classes.textField}
                         value={spotPhone}
                         onChange={(e) => { setSpotPhone(e.target.value) }}
-                        margin="normal"
-                    />
-                    <TextField
-                        id="standard-name"
-                        label="Email"
-                        className={classes.textField}
-                        value={spotEmail}
-                        onChange={(e) => { setSpotEmail(e.target.value) }}
                         margin="normal"
                     />
                     <TextField
@@ -301,7 +365,7 @@ function EditSpot(props) {
                     <Typography className={classes.title} variant="subtitle1" gutterBottom>
                         Open Hours
                     </Typography>
-                    <OpenHours />
+                    <OpenHours OpenHoursCallBack={callOpenHours} />
                     <br />
                     {/* <CategorySelect /> */}
                     <CategorySelect
