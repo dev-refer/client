@@ -17,6 +17,7 @@ import Loading from '../../components/Loading/index.js';
 import { setSpotDetail } from '../../redux/actions/spotDetail.action';
 import { connect } from 'react-redux';
 import { fetchSpot } from '../../redux/actions/spot.action';
+import { fetchCategory } from '../../redux/actions/category.action';
 
 // import Loading from '../Loading';
 import swal from 'sweetalert2';
@@ -71,20 +72,7 @@ function EditSpot(props) {
 
 
     useEffect(() => {
-        // JIKA SPOT DETAIL DI PROPS TIDAK ADA
-        //LAKUKAN GET SPOT ID
-        // JIKA ADA
-        //SET SPOT DETIAL DI STATE MENGGUNAKAN PROPS SPOTDETAIL
-
-        console.log(props);
-
-
-        if (!props.spotDetail.spotDetail.name) {
-            console.log('masuk')
-            // props.getSpotId(props.match.params.id)
-        }
-        // setSpotPhoto(icon)
-
+        props.getCategory()
     }, [])
 
     useEffect(() => {
@@ -174,8 +162,7 @@ function EditSpot(props) {
     }
 
     const submitUpdate = async() => {
-        const operatingTimes = validateTimes();
-        if (operatingTimes) {
+        console.log(props.match.params.id)
             var categoryId = [];
             categoryName.map(cat => {
                 let c = props.categories.categoryList.find(item => item.name == cat)
@@ -184,9 +171,9 @@ function EditSpot(props) {
 
             try {
                 setLoading(true)
-                await axios({
-                    method: 'POST',
-                    url: '/v1/spots',
+                const result = await axios({
+                    method: 'PUT',
+                    url: '/v1/spots/' + props.match.params.id,
                     data: {
                         name: spotName,
                         description: spotDescription,
@@ -195,7 +182,7 @@ function EditSpot(props) {
                         longitude: spotLongitude,
                         city: spotCity,
                         address: spotAddress,
-                        operatingTimes: operatingTimes,
+                        operatingTimes: JSON.stringify(openHours),
                         categoryId: categoryId,
                         image: spotPhoto,
                         country: spotCountry,
@@ -205,6 +192,7 @@ function EditSpot(props) {
                         token: localStorage.getItem('token')
                     }
                 })
+               
                 setLoading(false)
                 swal.fire({
                     title: 'success',
@@ -222,7 +210,6 @@ function EditSpot(props) {
                     type: 'error'
                 })
             }
-        }
     }
     return (
         //KETIKA SPOTDETAIL PROPS ADA TAMPILKAN SPOT DETAIL
@@ -383,7 +370,7 @@ function EditSpot(props) {
                 &nbsp;
                 &nbsp;
                 &nbsp;
-                <SaveButton submit={()=>{alert('asd')}} />
+                <SaveButton submit={()=>{submitUpdate()}} />
             </Grid>
         </div>
     )
@@ -391,14 +378,17 @@ function EditSpot(props) {
 
 const mapStateToProps = state => ({
     spot: state.spot,
-    spotDetail: state.spotData
+    spotDetail: state.spotData,
+    categories: state.category
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         getSpot: () => dispatch(fetchSpot({})),
         getSpotDetail: (data) => dispatch(setSpotDetail(data)),
-        getSpotId: (spotId) => dispatch(fetchSpotById(spotId))
+        getSpotId: (spotId) => dispatch(fetchSpotById(spotId)),
+        getCategory: () => dispatch(fetchCategory({}))
+
     };
 };
 

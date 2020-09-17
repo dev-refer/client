@@ -130,8 +130,6 @@ function AddSpot(props) {
     }
 
     const sendNewSpot = async () => {
-        const operatingTimes = validateTimes();
-        if (operatingTimes) {
             var categoryId = [];
             category.map(cat => {
                 let c = props.categories.categoryList.find(item => item.name == cat)
@@ -140,7 +138,7 @@ function AddSpot(props) {
 
             try {
                 setLoading(true)
-                await axios({
+                const result = await axios({
                     method: 'POST',
                     url: '/v1/spots',
                     data: {
@@ -151,7 +149,7 @@ function AddSpot(props) {
                         longitude: spotLongitude,
                         city: spotCity,
                         address: spotAddress,
-                        operatingTimes: operatingTimes,
+                        operatingTimes: JSON.stringify(openHours),
                         categoryId: categoryId,
                         image: spotPhoto,
                         country: spotCountry,
@@ -178,7 +176,6 @@ function AddSpot(props) {
                     type: 'error'
                 })
             }
-        }
     }
 
     const deletePhoto = (data) => {

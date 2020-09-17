@@ -18,8 +18,10 @@ const fetchSpot = ({ order, sort, pages }) => {
                 page,
                 page_size,
             } = result.data
+            console.log(result, ' ini result')
             dispatch({ type: 'SET_SPOT_LIST', spotList: data, count: data_size, limit: page_size, page, error: false })
         } catch (error) {
+            console.log(error, 'ini error')
             dispatch({ type: 'SET_SPOT_LIST', error: true })
         }
     }

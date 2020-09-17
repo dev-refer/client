@@ -82,7 +82,7 @@ export default function CustomizedTables(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.data.map((item, i) => (
+                        {props.data && props.data.length !== 0 && props.data.map((item, i) => (
                             <StyledTableRow >
                                 <StyledTableCell width="5%" component="th" scope="row" key={i}>{i + 1}</StyledTableCell>
                                 <StyledTableCell align="left">{item.name}</StyledTableCell>
