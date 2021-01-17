@@ -1,16 +1,20 @@
 import axios from '../../libs/axios';
 
 
-const fetchSpot = ({ order, sort, pages }) => {
+const fetchSpot = ({ order, sort, pages, spotName }) => {
     return async dispatch => {
         dispatch({ type: 'SET_SPOT_LIST_LOADING' })
         try {
+            let url = `/v1/spots?order=${order ? order : 'ASC'}&sort=${sort ? sort : 'id'}&page=${pages ? pages : 1}`;
+            if (spotName) {
+                url = `/v1/spots?order=${order ? order : 'ASC'}&sort=${sort ? sort : 'id'}&page=${pages ? pages : 1}&spotName=${spotName}`
+            }
             const result = await axios({
                 method: 'GET',
                 headers: {
                     token: window.localStorage.getItem('token')
                 },
-                url: `/v1/spots?order=${order ? order : 'ASC'}&sort=${sort ? sort : 'id'}&page=${pages ? pages : 1}`
+                url
             })
             const {
                 data,

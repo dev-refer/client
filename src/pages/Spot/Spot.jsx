@@ -12,6 +12,7 @@ import axios from '../../libs/axios';
 import { connect } from 'react-redux';
 import { fetchSpot } from '../../redux/actions/spot.action';
 import { setSpotDetail } from '../../redux/actions/spotDetail.action';
+import { Search } from '@material-ui/icons';
 
 
 
@@ -67,6 +68,7 @@ function Spot(props) {
     const [number, setNumber] = useState()
     const [limit, setDisplay] = useState()
     const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
         props.getSpot({ order: 'DESC', sort: 'id', pages: 1 });
@@ -76,6 +78,18 @@ function Spot(props) {
 
     const AddSpot = () => {
         props.history.push('/add-spot');
+    }
+
+    const handleSearch = async (e) => {
+        setSearch(e.target.value)
+        console.log(e.target.value)
+        if (search.length >= 3) {
+            setNumber(0)
+            props.getSpot({ order: 'DESC', sort: 'id', pages: 1, spotName: e.target.value })
+        } else if (!e.target.value) {
+            setNumber(0)
+            props.getSpot({ order: 'DESC', sort: 'id', pages: 1, spotName: e.target.value })
+        }
     }
 
     const deleteSpot = async (id) => {
@@ -126,6 +140,8 @@ function Spot(props) {
                 <Grid item xs={2}>
                     <div className={classes.container}>
                         <TextField
+                            value={search}
+                            onChange={handleSearch}
                             id="standard-search"
                             label="Search"
                             type="search"
@@ -147,7 +163,7 @@ function Spot(props) {
                             total={Math.ceil(props.spot.count / props.spot.limit)}
                             offset={number}
                             onClick={(e, offset) => {
-                                props.getSpot({ order: 'DESC', sort: 'id', pages: offset + 1 })
+                                props.getSpot({ order: 'DESC', sort: 'id', pages: offset + 1, spotName: search || '' })
                                 setNumber(offset);
                             }}
                         />
