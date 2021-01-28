@@ -131,6 +131,14 @@ function Sidebar(props) {
                             <ListItemText className={pathname === '/user' ? classes.activeIcon : classes.iconList} primary="Users" />
                         </ListItem>
                     </Link>
+                    <Link style={{ color: 'inherit', textDecoration: "none" }} to='/highlight'>
+                        <ListItem className={pathname === '/highlight' ? classes.activeButton : null} button>
+                            <ListItemIcon>
+                                <People className={pathname === '/highlight' ? classes.activeIcon : classes.iconList} />
+                            </ListItemIcon>
+                            <ListItemText className={pathname === '/highlight' ? classes.activeIcon : classes.iconList} primary="Highlights" />
+                        </ListItem>
+                    </Link>
                 </div>
             </List>
         </Drawer>

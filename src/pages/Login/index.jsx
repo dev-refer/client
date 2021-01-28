@@ -16,6 +16,10 @@ import Loading from '../../components/Loading';
 import { connect } from 'react-redux';
 import { login } from '../../redux/actions/auth.action';
 
+import HelloSign from 'hellosign-embedded';
+
+const client = new HelloSign();
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -126,6 +130,12 @@ function SignIn({ history, postLogin }) {
     }
     return (
         <Container component="main" maxWidth="xs">
+            {/* {
+                client.open('https://app.hellosign.com/editor/embeddedSign?signature_id=4b9e34af659eb146b17dd949428071ff&token=2fa8f9167b8dca83c964d126e4b47fb6', {
+                    clientId: 'e078dc1d80353094093d1454b5348b77',
+                    skipDomainVerification: true
+                })
+            } */}
             {
                 loading ? <Loading classes={classes} /> : null
             }

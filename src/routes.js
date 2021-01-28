@@ -44,6 +44,12 @@ const routes = [
         path: '/category-detail/:id',
         component: loadable(() => import('./pages/Category/CategoryDetail'))
     },
+    {
+        id: 'highlight',
+        title: 'Highlight',
+        path: '/highlight',
+        component: loadable(() => import('./pages/Highlight/Highlight'))
+    },
 ];
 
 export default routes;
